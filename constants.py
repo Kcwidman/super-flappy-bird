@@ -4,6 +4,8 @@ CLOCK = pygame.time.Clock()
 FPS = 30
 VEL = 3
 
+START = pygame.USEREVENT + 4
+
 WIDTH, HEIGHT = 576, 900
 SCREEN_DIM = (WIDTH, HEIGHT)
 SCREEN = pygame.display.set_mode (SCREEN_DIM)
