@@ -2,21 +2,21 @@ from constants import *
 import random
 class Pipe:
 
-    def create_pipe(self):
-            x_loc = WIDTH+250
-            pipe_level = [450,500,600]
-            y_loc = random.choice(pipe_level)
-            bot_pipe = PIPE_SURFACE.get_rect(midtop = (x_loc,y_loc))
-            top_pipe = PIPE_SURFACE.get_rect(midbottom = (x_loc,y_loc-100))
-            return bot_pipe,top_pipe
-    def movelist(self,pipes):
-            for pipe in pipes:
-             pipe.move_ip(-150,0)
-            return pipes
-    def draw_pipe(self,pipes):
-            for pipe in pipes:
-                if pipe.bottom >=900:
-                    SCREEN.blit(PIPE_SURFACE,pipe) 
-                else:
-                    pipe_rotate = pygame.transform.flip(PIPE_SURFACE,False,True) # flipping the pipe vertically
-                    SCREEN.blit(pipe_rotate,pipe)
+    def __init__(self, x):
+        self.x_loc = x
+        self.gap_loc = random.randrange(200, 700)
+        self.bot_pipe_surface = pygame.transform.scale(PIPE_SURFACE,(PIPE_WIDTH, FLOOR - self.gap_loc))
+        self.top_pipe_surface = pygame.transform.scale(PIPE_SURFACE,(PIPE_WIDTH, self.gap_loc - PIPE_GAP))
+
+        self.bot_pipe = self.bot_pipe_surface.get_rect(midtop = (self.x_loc, self.gap_loc))
+        self.top_pipe = self.top_pipe_surface.get_rect(midtop = (self.x_loc, 0))
+        self.top_pipe_surface = pygame.transform.flip(self.top_pipe_surface,False,True)
+
+    def move(self):
+        self.x_loc -= VEL
+        self.bot_pipe.center = (self.x_loc, self.bot_pipe.center[1])
+        self.top_pipe.center = (self.x_loc, self.top_pipe.center[1])
+
+    def draw_pipe(self):
+        SCREEN.blit(self.bot_pipe_surface, self.bot_pipe)
+        SCREEN.blit(self.top_pipe_surface, self.top_pipe)

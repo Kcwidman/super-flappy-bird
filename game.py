@@ -6,60 +6,50 @@ from pipe import *
 pygame.init()
 pygame.display.set_caption("Flappy Bird")
 base = Base()
-pipeobj = Pipe()
-birdobj = Bird()
-GENERATE_PIPE = pygame.USEREVENT # For generating pipes
-pygame.time.set_timer(GENERATE_PIPE,2000)
-START = pygame.USEREVENT + 4
-pygame.time.set_timer(START, 10000)
+birdObj = Bird()
 pipelist = []
 
-
 def generate_pipes():
-    tes=0
+    if len(pipelist) == 0:
+        for i in range (1, 5):
+            pipelist.append(Pipe(WIDTH + i*PIPE_SPACING))
+    if pipelist[0].x_loc <= -PIPE_WIDTH/2:
+        pipelist.append(Pipe(WIDTH + PIPE_SPACING + pipelist[0].x_loc))
+        pipelist.pop(0)
+
+def game_loop(start):
+    if start:
+        generate_pipes()
+        for pipe in pipelist:
+            pipe.move()
+        birdObj.bird_fall()
+        
+    draw_window()
+    pygame.display.update()
 
 
-def game_loop():
-    tes1=0
-
-
-def draw_window(bird):
+def draw_window():
     SCREEN.blit(BG_SURFACE,(0,0))
-    pipeobj.draw_pipe(pipelist)
-    birdobj.draw_bird(bird, BIRD_BOUNDARY)
+    for pipe in pipelist:
+        pipe.draw_pipe()
+    birdObj.draw_bird()
     base.draw()
 
 
-def main(change, boundary):
+def main():
+    start = False
     run = True
     while run:
-        counter, text = 10, '10'.rjust(3)
-        font = pygame.font.SysFont('Consolas', 30)   
         CLOCK.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT or event.type == GAME_OVER:
                 run = False
-            """if event.type == START: 
-                counter -= 1
-                if counter > 0: 
-                    text = str(counter)
-                    print(text)
-                else: 'START!'"""
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    change = birdobj.jump_bird(change)
-            if event.type == GENERATE_PIPE:
-                pipelist.extend(pipeobj.create_pipe())
-                pipeobj.movelist(pipelist)
-                
-
-        game_loop()
-        bird = birdobj.animate_bird(BIRD_SURFACE, change)
-        draw_window(bird)
-        pygame.display.update()
-        change, boundary = birdobj.bird_fall(change, boundary)
-
+                    start = True
+                    birdObj.jump_bird()
+        game_loop(start)
     pygame.quit()
 
 
-main(BIRD_Y_CHANGE, BIRD_BOUNDARY)
+main()
