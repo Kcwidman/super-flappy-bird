@@ -30,11 +30,11 @@ def game_loop(start):
         generate_pipes()
         for pipe in pipelist:
             if pipe.collide(birdObj) == True:
-                pygame.event.post(pygame.event.EVENT(GAME_OVER))
+                pygame.event.post(pygame.event.Event(GAME_OVER))
             pipe.move()
 #Check for base collision
-        # if base.collide(birdObj) == True:
-        #     pygame.event.post(pygame.event.EVENT(GAME_OVER))
+        if base.collide(birdObj) == True:
+            pygame.event.post(pygame.event.Event(GAME_OVER))
 #Move the bird
         birdObj.bird_fall()
 
