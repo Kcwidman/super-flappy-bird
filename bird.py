@@ -10,18 +10,18 @@ class Bird:
     falling_vel = 0
     rot_angle = 0
     frame_index = 0
-    boundary = BIRD_SURFACE.get_rect(center=(150, 500))
+    boundary = BIRD_SURFACE.get_rect(center=(BIRD_START_X_LOC, 500))
+    bird_img = birdFrame[0]
 
     def animate_bird(self):
         self.tick_count += 1
         if self.tick_count % 3 == 0:
             self.frame_index = (self.frame_index + 1) % 3
-        rotoBird = pygame.transform.rotozoom(self.birdFrame[self.frame_index], max(-self.falling_vel * 5, -70), 1)
-        return rotoBird
+        self.bird_img = pygame.transform.rotozoom(self.birdFrame[self.frame_index], max(-self.falling_vel * 5, -70), 1)
 
     def draw_bird(self):
-        rotoBird = self.animate_bird()
-        SCREEN.blit(rotoBird, self.boundary)
+        self.animate_bird()
+        SCREEN.blit(self.bird_img, self.boundary)
 
     def bird_fall(self):
         self.rot_angle = -self.falling_vel * 5
@@ -30,4 +30,7 @@ class Bird:
 
     def jump_bird(self):
         self.falling_vel = JUMP_HEIGHT
+
+    def get_mask(self):
+        return pygame.mask.from_surface(self.bird_img)
 

@@ -9,6 +9,13 @@ base = Base()
 birdObj = Bird()
 pipelist = []
 
+def draw_window():
+    SCREEN.blit(BG_SURFACE,(0,0))
+    for pipe in pipelist:
+        pipe.draw_pipe()
+    birdObj.draw_bird()
+    base.draw()
+
 def generate_pipes():
     if len(pipelist) == 0:
         for i in range (1, 5):
@@ -19,25 +26,23 @@ def generate_pipes():
 
 def game_loop(start):
     if start:
+#Affect pipes
         generate_pipes()
         for pipe in pipelist:
+            if pipe.collide(birdObj) == True:
+                pygame.event.post(pygame.event.EVENT(GAME_OVER))
             pipe.move()
+#Check for base collision
+        # if base.collide(birdObj) == True:
+        #     pygame.event.post(pygame.event.EVENT(GAME_OVER))
+#Move the bird
         birdObj.bird_fall()
-        
+
     draw_window()
     pygame.display.update()
 
-
-def draw_window():
-    SCREEN.blit(BG_SURFACE,(0,0))
-    for pipe in pipelist:
-        pipe.draw_pipe()
-    birdObj.draw_bird()
-    base.draw()
-
-
 def main():
-    start = False
+    start = False#false
     run = True
     while run:
         CLOCK.tick(FPS)
