@@ -3,7 +3,7 @@ import pygame
 #global constants
 CLOCK = pygame.time.Clock()
 FPS = 30
-VEL = 10
+VEL = 8
 GAME_OVER = pygame.USEREVENT + 1
 
 #window constants
