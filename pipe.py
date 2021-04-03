@@ -4,6 +4,7 @@ class Pipe:
 
     def __init__(self, x):
         self.x_loc = x
+        #self.passed
         self.gap_loc = random.randrange(200, 700) #(200, 700)
         self.bot_pipe_surface = pygame.transform.scale(PIPE_SURFACE,(PIPE_WIDTH, FLOOR - self.gap_loc))
         self.top_pipe_surface = pygame.transform.scale(PIPE_SURFACE,(PIPE_WIDTH, self.gap_loc - PIPE_GAP))
@@ -19,19 +20,25 @@ class Pipe:
 
     def draw_pipe(self):
         SCREEN.blit(self.bot_pipe_surface, self.bot_pipe)
-        SCREEN.blit(self.top_pipe_surface, self.top_pipe)
+        #SCREEN.blit(self.top_pipe_surface, self.top_pipe)
     
     def collide(self, bird):
         bird_mask = bird.get_mask()
-        top_pipe_mask = pygame.mask.from_surface(self.top_pipe_surface)
+        #top_pipe_mask = pygame.mask.from_surface(self.top_pipe_surface)
         bot_pipe_mask = pygame.mask.from_surface(self.bot_pipe_surface)
-        top_offset = (self.x_loc - bird.boundary.right + 5, self.top_pipe.top - round(bird.boundary.top))
+        #top_offset = (self.x_loc - bird.boundary.right + 5, self.top_pipe.top - round(bird.boundary.top))
         bot_offset = (self.x_loc - bird.boundary.right + 5, self.bot_pipe.top - round(bird.boundary.top))
 
-        top_collide = bird_mask.overlap(top_pipe_mask, top_offset)
+        #top_collide = bird_mask.overlap(top_pipe_mask, top_offset)
         bot_collide = bird_mask.overlap(bot_pipe_mask, bot_offset)
 
-        if top_collide or bot_collide:
+        if bot_collide:  #top_collide or 
+            return True
+        else:
+            return False
+    
+    def scorecal(self,bird):
+        if  self.x_loc  <= bird.boundary.centerx:
             return True
         else:
             return False
