@@ -4,6 +4,7 @@ class Pipe:
 
     def __init__(self, x):
         self.x_loc = x
+        #self.passed
         self.gap_loc = random.randrange(200, 700) #(200, 700)
         self.bot_pipe_end = self.gap_loc
         self.top_pipe_end = self.gap_loc - PIPE_GAP - PIPE_SURFACE.get_height()
@@ -29,7 +30,13 @@ class Pipe:
         top_collide = bird_mask.overlap(top_pipe_mask, top_offset)
         bot_collide = bird_mask.overlap(bot_pipe_mask, bot_offset)
 
-        if top_collide or bot_collide:
+        if bot_collide:  #top_collide or 
+            return True
+        else:
+            return False
+    
+    def scorecal(self,bird):
+        if  self.x_loc  <= bird.x_loc:
             return True
         else:
             return False
