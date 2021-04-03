@@ -12,7 +12,9 @@ class Base:
             self.tick_count = 0
     
     def collide(self, bird):
-        if bird.boundary.bottom <= (HEIGHT - BASE_HEIGHT):
+        if bird.boundary.bottom > (HEIGHT - BASE_HEIGHT):
+            return True
+        else:
             return False
         else:
             return True
