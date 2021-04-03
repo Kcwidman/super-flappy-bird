@@ -3,18 +3,22 @@ from constants import *
 from bird import *
 from base import *
 from pipe import *
+from score import *
 pygame.init()
 pygame.display.set_caption("Flappy Bird")
 base = Base()
 birdObj = Bird()
 pipelist = []
+Score = Score()
 
 def draw_window():
     SCREEN.blit(BG_SURFACE,(0,0))
     for pipe in pipelist:
         pipe.draw_pipe()
     birdObj.draw_bird()
+    Score.score_display()
     base.draw()
+
 
 def generate_pipes():
     if len(pipelist) == 0:
@@ -27,16 +31,16 @@ def generate_pipes():
 def game_loop(start):
     if start:
 #Affect pipes
-        generate_pipes()
-        for pipe in pipelist:
-            if pipe.collide(birdObj) == True:
-                pygame.event.post(pygame.event.Event(GAME_OVER))
-            pipe.move()
+            generate_pipes()
+            for pipe in pipelist:
+                if pipe.collide(birdObj) == True:
+                    pygame.event.post(pygame.event.Event(GAME_OVER))
+                    pipe.move()
 #Check for base collision
-        if base.collide(birdObj) == True:
-            pygame.event.post(pygame.event.Event(GAME_OVER))
+                if base.collide(birdObj) == True:
+                    pygame.event.post(pygame.event.Event(GAME_OVER))
 #Move the bird
-        birdObj.bird_fall()
+    #birdObj.bird_fall()
 
     draw_window()
     pygame.display.update()

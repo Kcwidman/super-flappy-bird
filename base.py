@@ -13,7 +13,7 @@ class Base:
     
     def collide(self, bird):
         if bird.boundary.bottom <= (HEIGHT - BASE_HEIGHT):
-            return True
-        else:
             return False
+        else:
+            return True
         # return True
