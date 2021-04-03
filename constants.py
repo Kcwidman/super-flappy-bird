@@ -33,8 +33,8 @@ BIRD_START_X_LOC = 150
 BIRD_START_Y_LOC = 450
 BIRD_WIDTH = BIRD_HEIGHT = 50
 BIRD_SURFACE = pygame.image.load("assets/bird1.png").convert_alpha()
-FALLING_ACC = .4 #1.5
-JUMP_HEIGHT = -6 #-12
+FALLING_ACC = 0.4 #0.4
+JUMP_HEIGHT = -6 #-6
 
 #derived constants
 FLOOR = HEIGHT - BASE_HEIGHT

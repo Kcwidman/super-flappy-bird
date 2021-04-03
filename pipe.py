@@ -10,6 +10,7 @@ class Pipe:
         self.top_pipe_end = self.gap_loc - PIPE_GAP - PIPE_SURFACE.get_height()
         self.bot_pipe_surface = PIPE_SURFACE
         self.top_pipe_surface = pygame.transform.flip(PIPE_SURFACE,False,True)
+        self.passed = False
 
     def move(self):
         self.x_loc -= VEL
@@ -36,7 +37,8 @@ class Pipe:
             return False
     
     def scorecal(self,bird):
-        if  self.x_loc  <= bird.x_loc:
+        if self.x_loc  <= bird.x_loc and self.passed == False:
+            self.passed = True
             return True
         else:
             return False
