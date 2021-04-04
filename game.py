@@ -7,7 +7,7 @@ from score import *
 class Game:
 
     def __init__(self):
-        pygame.key.set_repeat(100)
+
         pygame.init()
         pygame.display.set_caption("Flappy Bird")
         self.base = Base()
@@ -79,20 +79,22 @@ class Game:
                     if event.type == pygame.QUIT:
                         run = False
                         self.game_over = True
+                    if event.type == GAME_OVER:
+                        self.game_over = True
                     if event.type == pygame.KEYDOWN:
                         start = True
                         if event.key == pygame.K_SPACE:
                             self.easy_mode = False
                             self.birdObj.jump_bird()
-                        if event.key == pygame.K_UP:
-                            self.easy_mode = True
-                            self.birdObj.easy_mode_move("up")
-                        if event.key == pygame.K_DOWN:
-                            self.easy_mode = True
-                            self.birdObj.easy_mode_move("down")
+#EASY MODE CONTROLS
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_UP]:
+                    self.easy_mode = True
+                    self.birdObj.easy_mode_move("up")
+                if keys[pygame.K_DOWN]:
+                    self.easy_mode = True
+                    self.birdObj.easy_mode_move("down")
 
-                    if event.type == GAME_OVER:
-                        self.game_over = True
                 if run == True: self.game_loop(start)
     #Restart game on space press
             for event in pygame.event.get():

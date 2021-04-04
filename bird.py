@@ -40,7 +40,7 @@ class Bird:
     def easy_mode_move(self, direction):
         self.falling_vel = 0
         if direction == "up":
-            self.y_loc -= 25
+            self.y_loc -= 7
         if direction == "down":
-            self.y_loc += 25
+            self.y_loc += 7
         self.boundary = BIRD_SURFACE.get_rect(topleft = (self.x_loc, self.y_loc))
