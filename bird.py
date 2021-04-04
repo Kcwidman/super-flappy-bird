@@ -1,4 +1,3 @@
-import pygame
 from constants import *
 
 class Bird:
@@ -30,6 +29,7 @@ class Bird:
         self.falling_vel += FALLING_ACC
         self.y_loc += self.falling_vel
         self.boundary = BIRD_SURFACE.get_rect(topleft = (self.x_loc, self.y_loc))
+        self.in_bounds_check()
 
     def jump_bird(self):
         self.falling_vel = JUMP_HEIGHT
@@ -44,3 +44,9 @@ class Bird:
         if direction == "down":
             self.y_loc += 7
         self.boundary = BIRD_SURFACE.get_rect(topleft = (self.x_loc, self.y_loc))
+        self.in_bounds_check()
+    
+    def in_bounds_check(self):
+        if self.y_loc < 0:
+            self.y_loc = 0
+            self.boundary = BIRD_SURFACE.get_rect(topleft = (self.x_loc, self.y_loc))
