@@ -17,7 +17,7 @@ BG_SURFACE = pygame.transform.scale(BG_SURFACE,(SCREEN_DIM))
 
 #base constants
 BASE_HEIGHT = 100
-BASE_SURFACE = pygame.image.load("assets/base.png").convert()
+BASE_SURFACE = pygame.image.load("assets/base.png").convert_alpha()
 BASE_SURFACE = pygame.transform.scale(BASE_SURFACE,(WIDTH, BASE_HEIGHT))
 
 #pipe constants
@@ -35,6 +35,9 @@ BIRD_WIDTH = BIRD_HEIGHT = 50
 BIRD_SURFACE = pygame.image.load("assets/bird1.png").convert_alpha()
 FALLING_ACC = 0.4 #0.4
 JUMP_HEIGHT = -6 #-6
+
+#Orb constants
+ORB_DIM = (20, 20)
 
 #derived constants
 FLOOR = HEIGHT - BASE_HEIGHT

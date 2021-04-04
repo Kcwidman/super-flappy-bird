@@ -4,6 +4,7 @@ from bird import *
 from base import *
 from pipe import *
 from score import *
+from level import *
 class Game:
 
     def __init__(self):
@@ -13,6 +14,7 @@ class Game:
         self.base = Base()
         self.birdObj = Bird()
         self.pipelist = []
+        self.level = Level()
         self.Score = Score()
         self.easy_mode = False
         self.game_over = False
@@ -24,6 +26,13 @@ class Game:
         self.base.draw()
         self.birdObj.draw_bird()
         self.Score.score_display(self.game_over)
+#experimenting with orbs
+        if self.level.orbs:
+            self.level.orbs[0].move()
+            self.level.orbs[0].draw_orb()
+            if self.level.orbs[0].collide(self.birdObj):
+                self.level.orbs.pop(0)
+
 
     def draw_start_window(self):
         SCREEN.blit(BG_SURFACE,(0,0))
