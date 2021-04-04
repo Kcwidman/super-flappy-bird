@@ -25,6 +25,14 @@ class Game:
         self.birdObj.draw_bird()
         self.Score.score_display(self.game_over)
 
+    def draw_start_window(self):
+        SCREEN.blit(BG_SURFACE,(0,0))
+        for pipe in self.pipelist:
+            pipe.draw_pipe()
+        self.base.draw()
+        self.birdObj.draw_bird()
+        self.Score.start_display()
+
     def generate_pipes(self):
     #GENERATE PIPES
         if len(self.pipelist) == 0:
@@ -37,9 +45,11 @@ class Game:
         
         
     def game_loop(self, start):
-        self.draw_window()
-        pygame.display.update()
+        #self.draw_window()
+        #pygame.display.update()
         if start:
+                self.draw_window()
+                pygame.display.update()
     #Affect pipes
                 self.generate_pipes()
                 for pipe in self.pipelist:
@@ -54,6 +64,9 @@ class Game:
                     pygame.event.post(pygame.event.Event(GAME_OVER))
     #Move the bird
                 if self.easy_mode == False: self.birdObj.bird_fall()
+        else:
+            self.draw_start_window()
+            pygame.display.update()
 
 
     def main(self):
