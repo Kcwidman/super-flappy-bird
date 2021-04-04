@@ -29,7 +29,11 @@ class Bird:
         self.rot_angle = -self.falling_vel * 5
         self.falling_vel += FALLING_ACC
         self.y_loc += self.falling_vel
-        self.boundary = (self.x_loc, self.y_loc)
+        self.boundary = BIRD_SURFACE.get_rect(topleft = (self.x_loc, self.y_loc))
+# #KEEP FROM FALLING THROUGH THE FLOOR AT HIGH SPEEDS
+#         if self.boundary.bottom >= FLOOR:
+#             self.y_loc = FLOOR - self.bird_img.get_height()
+#             self.boundary = BIRD_SURFACE.get_rect(topleft = (self.x_loc, self.y_loc))
 
     def jump_bird(self):
         self.falling_vel = JUMP_HEIGHT

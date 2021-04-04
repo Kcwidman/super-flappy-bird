@@ -17,7 +17,7 @@ class Pipe:
 
     def draw_pipe(self):
         SCREEN.blit(self.bot_pipe_surface, (self.x_loc, self.bot_pipe_end))
-        #SCREEN.blit(self.top_pipe_surface, (self.x_loc, self.top_pipe_end))
+        SCREEN.blit(self.top_pipe_surface, (self.x_loc, self.top_pipe_end))
     
     def collide(self, bird):
 #SET MASKS

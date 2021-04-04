@@ -2,7 +2,7 @@ from constants import *
 
 class Base:
     x_loc = 0
-    y_loc = HEIGHT - BASE_HEIGHT
+    y_loc = FLOOR
 
     def draw(self):
         self.x_loc -= VEL
@@ -12,15 +12,8 @@ class Base:
             self.x_loc = 0
     
     def collide(self, bird):
-#SET MASKS
-        bird_mask = bird.get_mask()
-        base_mask = pygame.mask.from_surface(BASE_SURFACE)
-#FIND OFFSETS
-        offset = (self.x_loc - bird.x_loc, self.y_loc - round(bird.y_loc))
-#CHECK AND RETURN FOR OVERLAP OF MASKS
-        collide = bird_mask.overlap(base_mask, offset)
-
-        if collide:
+        if bird.y_loc + bird.bird_img.get_height() >= self.y_loc:
+            print("gameover")
             return True
         else:
             return False
