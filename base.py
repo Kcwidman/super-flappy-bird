@@ -1,19 +1,26 @@
 from constants import *
 
 class Base:
-    tick_count = 0
-    boundary = BASE_SURFACE.get_rect(topleft = (0, BASE_HEIGHT))
+    x_loc = 0
+    y_loc = HEIGHT - BASE_HEIGHT
 
     def draw(self):
-        self.tick_count -= VEL
-        SCREEN.blit(BASE_SURFACE,(self.tick_count , HEIGHT - BASE_HEIGHT))
-        SCREEN.blit(BASE_SURFACE,(self.tick_count + WIDTH, HEIGHT - BASE_HEIGHT))
-        if self.tick_count <= -WIDTH:
-            self.tick_count = 0
+        self.x_loc -= VEL
+        SCREEN.blit(BASE_SURFACE,(self.x_loc, self.y_loc))
+        SCREEN.blit(BASE_SURFACE,(self.x_loc + WIDTH, self.y_loc))
+        if self.x_loc <= -WIDTH:
+            self.x_loc = 0
     
     def collide(self, bird):
-        if bird.boundary.bottom > (HEIGHT - BASE_HEIGHT):
+#SET MASKS
+        bird_mask = bird.get_mask()
+        base_mask = pygame.mask.from_surface(BASE_SURFACE)
+#FIND OFFSETS
+        offset = (self.x_loc - bird.x_loc, self.y_loc - round(bird.y_loc))
+#CHECK AND RETURN FOR OVERLAP OF MASKS
+        collide = bird_mask.overlap(base_mask, offset)
+
+        if collide:
             return True
         else:
             return False
-        # return True

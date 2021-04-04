@@ -10,8 +10,10 @@ class Bird:
     falling_vel = 0
     rot_angle = 0
     frame_index = 0
-    boundary = BIRD_SURFACE.get_rect(center=(BIRD_START_X_LOC, 500))
     bird_img = birdFrame[0]
+    y_loc = BIRD_START_Y_LOC
+    x_loc = BIRD_START_X_LOC
+    boundary = BIRD_SURFACE.get_rect(topleft = (x_loc, y_loc))
 
     def animate_bird(self):
         self.tick_count += 1
@@ -26,7 +28,8 @@ class Bird:
     def bird_fall(self):
         self.rot_angle = -self.falling_vel * 5
         self.falling_vel += FALLING_ACC
-        self.boundary.centery += self.falling_vel
+        self.y_loc += self.falling_vel
+        self.boundary = (self.x_loc, self.y_loc)
 
     def jump_bird(self):
         self.falling_vel = JUMP_HEIGHT

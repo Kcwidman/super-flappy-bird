@@ -4,7 +4,7 @@ class Score:
     def __init__(self):
         self.score = 0 
         #self.high_score = 0
-        self.font1 = pygame.font.Font('04B_19.ttf',40)
+        self.font1 = pygame.font.Font('04B_19.TTF',40)
         
     def score_display(self):
         self.score_surface = self.font1.render(str(self.score),1,(255,255,255))

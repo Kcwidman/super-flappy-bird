@@ -21,16 +21,19 @@ def draw_window():
 
 
 def generate_pipes():
-    
+#GENERATE PIPES
     if len(pipelist) == 0:
-        for i in range (1, 5):
-            pipelist.append(Pipe(WIDTH + i*PIPE_SPACING))
-    if pipelist[0].x_loc <= -PIPE_WIDTH/2:
+        for i in range (1, 5):#(1,5)
+            pipelist.append(Pipe(WIDTH + i*PIPE_SPACING))#WIDTH + i*PIPE_SPACING
+#DELETE PIPES WHEN THEY GO OFF SCREEN
+    if pipelist[0].x_loc <= -PIPE_WIDTH:
         pipelist.append(Pipe(WIDTH + PIPE_SPACING + pipelist[0].x_loc))
         pipelist.pop(0)
     
     
 def game_loop(start):
+    draw_window()
+    pygame.display.update()
     if start:
 #Affect pipes
             generate_pipes()
@@ -50,11 +53,10 @@ def game_loop(start):
             birdObj.bird_fall()
             
 
-    draw_window()
-    pygame.display.update()
+
 
 def main():
-    start = False#false
+    start = False
     run = True
     while run:
         CLOCK.tick(FPS)
@@ -65,11 +67,9 @@ def main():
                 if event.key == pygame.K_SPACE:
                     start = True
                     birdObj.jump_bird()
-            
+        if run == True: game_loop(start)
 
-        game_loop(start)
-            
     pygame.quit()
 
 
-main()
+main() 
