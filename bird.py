@@ -30,10 +30,6 @@ class Bird:
         self.falling_vel += FALLING_ACC
         self.y_loc += self.falling_vel
         self.boundary = BIRD_SURFACE.get_rect(topleft = (self.x_loc, self.y_loc))
-# #KEEP FROM FALLING THROUGH THE FLOOR AT HIGH SPEEDS
-#         if self.boundary.bottom >= FLOOR:
-#             self.y_loc = FLOOR - self.bird_img.get_height()
-#             self.boundary = BIRD_SURFACE.get_rect(topleft = (self.x_loc, self.y_loc))
 
     def jump_bird(self):
         self.falling_vel = JUMP_HEIGHT
@@ -41,3 +37,10 @@ class Bird:
     def get_mask(self):
         return pygame.mask.from_surface(self.bird_img)
 
+    def easy_mode_move(self, direction):
+        self.falling_vel = 0
+        if direction == "up":
+            self.y_loc -= 25
+        if direction == "down":
+            self.y_loc += 25
+        self.boundary = BIRD_SURFACE.get_rect(topleft = (self.x_loc, self.y_loc))

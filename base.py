@@ -13,7 +13,6 @@ class Base:
     
     def collide(self, bird):
         if bird.y_loc + bird.bird_img.get_height() >= self.y_loc:
-            print("gameover")
             return True
         else:
             return False
