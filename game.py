@@ -27,11 +27,11 @@ class Game:
         self.birdObj.draw_bird()
         self.Score.score_display(self.game_over)
 #experimenting with orbs
-        if self.level.orbs:
-            self.level.orbs[0].move()
-            self.level.orbs[0].draw_orb()
-            if self.level.orbs[0].collide(self.birdObj):
-                self.level.orbs.pop(0)
+        # if self.level.orbs:
+        #     self.level.orbs[0].move()
+        #     self.level.orbs[0].draw_orb()
+        #     if self.level.orbs[0].collide(self.birdObj):
+        #         self.level.orbs.pop(0)
 
 
     def draw_start_window(self):
