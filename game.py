@@ -15,6 +15,7 @@ class Game:
         self.pipelist = []
         self.Score = Score()
         self.easy_mode = False
+        self.game_over = False
 
     def draw_window(self):
         SCREEN.blit(BG_SURFACE,(0,0))
@@ -22,7 +23,7 @@ class Game:
             pipe.draw_pipe()
         self.base.draw()
         self.birdObj.draw_bird()
-        self.Score.score_display()
+        self.Score.score_display(self.game_over)
 
     def generate_pipes(self):
     #GENERATE PIPES
@@ -58,14 +59,13 @@ class Game:
     def main(self):
         start = False
         run = True
-        game_over = False
         while run:
-            while not game_over:
+            while not self.game_over:
                 CLOCK.tick(FPS)
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         run = False
-                        game_over = True
+                        self.game_over = True
                     if event.type == pygame.KEYDOWN:
                         start = True
                         if event.key == pygame.K_SPACE:
@@ -79,7 +79,7 @@ class Game:
                             self.birdObj.easy_mode_move("down")
 
                     if event.type == GAME_OVER:
-                        game_over = True
+                        self.game_over = True
                 if run == True: self.game_loop(start)
     #Restart game on space press
             for event in pygame.event.get():
@@ -92,7 +92,7 @@ class Game:
                         self.pipelist = []
                         self.Score = Score()
                         start = False
-                        game_over = False
+                        self.game_over = False
 
         pygame.quit()
 
