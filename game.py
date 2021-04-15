@@ -4,6 +4,7 @@ from bird import *
 from base import *
 from pipe import *
 from score import *
+from sound import *
 from level import *
 class Game:
 
@@ -16,6 +17,7 @@ class Game:
         self.pipelist = []
         self.level = Level()
         self.Score = Score()
+        self.Sound = Sound()
         self.easy_mode = False
         self.game_over = False
 
@@ -64,12 +66,15 @@ class Game:
                 for pipe in self.pipelist:
                     if pipe.scorecal(self.birdObj) == True:
                         self.Score.score += 1
+                        self.Sound.score_sound.play()
                 for pipe in self.pipelist:
                     if pipe.collide(self.birdObj) == True:
+                        self.Sound.hit.play()
                         pygame.event.post(pygame.event.Event(GAME_OVER))
                     pipe.move()
     #Check for base collision
                 if self.base.collide(self.birdObj) == True:
+                    self.Sound.hit.play()
                     pygame.event.post(pygame.event.Event(GAME_OVER))
     #Move the bird
                 if self.easy_mode == False: self.birdObj.bird_fall()
@@ -82,6 +87,7 @@ class Game:
         start = False
         run = True
         while run:
+            pygame.mixer.music.play(-1)
             while not self.game_over:
                 CLOCK.tick(FPS)
                 for event in pygame.event.get():
@@ -95,6 +101,7 @@ class Game:
                         if event.key == pygame.K_SPACE:
                             self.easy_mode = False
                             self.birdObj.jump_bird()
+
 #EASY MODE CONTROLS
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_UP]:
@@ -117,7 +124,7 @@ class Game:
                         self.Score = Score()
                         start = False
                         self.game_over = False
-
+                        
         pygame.quit()
 
 game = Game()
