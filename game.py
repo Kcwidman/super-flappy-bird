@@ -6,6 +6,7 @@ from pipe import *
 from score import *
 from sound import *
 from level import *
+#pygame.mixer.pre_init(frequency=44100, size=26, channels=2, buffer=512)
 class Game:
 
     def __init__(self):
@@ -20,7 +21,7 @@ class Game:
         self.Sound = Sound()
         self.easy_mode = False
         self.game_over = False
-
+                
     def draw_window(self):
         SCREEN.blit(BG_SURFACE,(0,0))
         for pipe in self.pipelist:
@@ -52,9 +53,7 @@ class Game:
     #DELETE PIPES WHEN THEY GO OFF SCREEN
         if self.pipelist[0].x_loc <= -PIPE_WIDTH:
             self.pipelist.append(Pipe(WIDTH + PIPE_SPACING + self.pipelist[0].x_loc))
-            self.pipelist.pop(0)
-        
-        
+            self.pipelist.pop(0)       
     def game_loop(self, start):
         #self.draw_window()
         #pygame.display.update()
@@ -82,12 +81,11 @@ class Game:
             self.draw_start_window()
             pygame.display.update()
 
-
     def main(self):
         start = False
         run = True
         while run:
-            pygame.mixer.music.play(-1)
+            pygame.mixer.music.play(-1) 
             while not self.game_over:
                 CLOCK.tick(FPS)
                 for event in pygame.event.get():
@@ -103,13 +101,13 @@ class Game:
                             self.birdObj.jump_bird()
 
 #EASY MODE CONTROLS
-                keys = pygame.key.get_pressed()
-                if keys[pygame.K_UP]:
-                    self.easy_mode = True
-                    self.birdObj.easy_mode_move("up")
-                if keys[pygame.K_DOWN]:
-                    self.easy_mode = True
-                    self.birdObj.easy_mode_move("down")
+                        keys = pygame.key.get_pressed()
+                        if keys[pygame.K_UP]:
+                            self.easy_mode = True
+                            self.birdObj.easy_mode_move("up")
+                        if keys[pygame.K_DOWN]:
+                            self.easy_mode = True
+                            self.birdObj.easy_mode_move("down")
 
                 if run == True: self.game_loop(start)
     #Restart game on space press
