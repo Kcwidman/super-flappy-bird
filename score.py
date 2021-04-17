@@ -26,31 +26,22 @@ class Score:
             
 
     def start_display(self):
-        self.mouse = pygame.mouse.get_pos()
         self.start_surface = self.font1.render(str(self.start), 1, (255, 255, 255))
         self.start_rect = self.start_surface.get_rect(center=(WIDTH / 2, 200))
+        self.menu1_surface = pygame.image.load("assets/menu1.png").convert()
+        self.menu2_surface = pygame.image.load("assets/menu2.png").convert()
+        self.menu_rect1 = self.menu1_surface.get_rect(center= (WIDTH/2+20,350)) # (320,350)
+        self.menu_rect2 = self.menu2_surface.get_rect(center= (WIDTH/2+20,425)) # (320,425)
         SCREEN.blit(self.start_surface, self.start_rect)
-        if (260+120) > self.mouse[0] > 260 and (320+60) > self.mouse [1] > 320:
-            self.menu1_surface = pygame.image.load("assets/menu1.png").convert()
-            self.menu1_surface = pygame.transform.scale(self.menu1_surface, (120,45))
-            self.menu_rect1 = self.menu1_surface.get_rect(center= (WIDTH/2+20,350))
-            SCREEN.blit(self.menu1_surface,self.menu_rect1)
+        self.menu_display(260, 320, 120, 40, self.menu1_surface, self.menu_rect1)
+        self.menu_display(260, 395, 120, 45, self.menu2_surface, self.menu_rect2)
+
+    def menu_display(self,X,Y,B,H,surface,surface_rect):
+        self.mouse = pygame.mouse.get_pos()
+        if (X+B) > self.mouse[0] > X and (Y+H) > self.mouse [1] > Y:
+            surface = pygame.transform.scale(surface, (B+10,H+5))
+            SCREEN.blit(surface,surface_rect)
         else:
-            self.menu1_surface = pygame.image.load("assets/menu1.png").convert()
-            self.menu1_surface = pygame.transform.scale(self.menu1_surface, (130,50))
-            self.menu_rect1 = self.menu1_surface.get_rect(center= (WIDTH/2+20,350))
-            SCREEN.blit(self.menu1_surface,self.menu_rect1)
-
-        if (260+120) > self.mouse[0] > 260 and (395+60) > self.mouse [1] > 395:
-            self.menu2_surface = pygame.image.load("assets/menu2.png").convert()
-            self.menu2_surface = pygame.transform.scale(self.menu2_surface, (120,60))
-            self.menu_rect2 = self.menu2_surface.get_rect(center= (WIDTH/2+20,425))
-            SCREEN.blit(self.menu2_surface,self.menu_rect2)
-        else:
-            self.menu2_surface = pygame.image.load("assets/menu2.png").convert()
-            self.menu2_surface = pygame.transform.scale(self.menu2_surface, (130,65))
-            self.menu_rect2 = self.menu2_surface.get_rect(center= (WIDTH/2+20,425))
-            SCREEN.blit(self.menu2_surface,self.menu_rect2)
-
-
+            surface = pygame.transform.scale(surface, (B,H))
+            SCREEN.blit(surface,surface_rect)
    
