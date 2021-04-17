@@ -6,7 +6,6 @@ from pipe import *
 from score import *
 from sound import *
 from level import *
-#pygame.mixer.pre_init(frequency=44100, size=26, channels=2, buffer=512)
 class Game:
 
     def __init__(self):
@@ -54,6 +53,8 @@ class Game:
         if self.pipelist[0].x_loc <= -PIPE_WIDTH:
             self.pipelist.append(Pipe(WIDTH + PIPE_SPACING + self.pipelist[0].x_loc))
             self.pipelist.pop(0)       
+    
+    
     def game_loop(self, start):
         #self.draw_window()
         #pygame.display.update()
@@ -101,15 +102,15 @@ class Game:
                             self.birdObj.jump_bird()
 
 #EASY MODE CONTROLS
-                        keys = pygame.key.get_pressed()
-                        if keys[pygame.K_UP]:
-                            self.easy_mode = True
-                            self.birdObj.easy_mode_move("up")
-                        if keys[pygame.K_DOWN]:
-                            self.easy_mode = True
-                            self.birdObj.easy_mode_move("down")
+                    keys = pygame.key.get_pressed()
+                    if keys[pygame.K_UP]:
+                        self.easy_mode = True
+                        self.birdObj.easy_mode_move("up")
+                    if keys[pygame.K_DOWN]:
+                        self.easy_mode = True
+                        self.birdObj.easy_mode_move("down")
 
-                if run == True: self.game_loop(start)
+                    if run == True: self.game_loop(start)
     #Restart game on space press
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
