@@ -25,7 +25,6 @@ class Score:
             SCREEN.blit(self.score_surface,self.score_rect)
             SCREEN.blit(self.score_surface1,self.score_rect1)
             self.menu_display(260, 380, 120, 40, self.menu3_surface, self.menu_rect3)    
-            print('yes')
             
 
     def start_display(self):
