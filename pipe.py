@@ -2,10 +2,10 @@ from constants import *
 import random
 class Pipe:
 
-    def __init__(self, x):
+    def __init__(self, x, gap_loc):
         self.x_loc = x
         #self.passed
-        self.gap_loc = random.randrange(250, 650) #(200, 700)
+        if gap_loc == 0: self.gap_loc = random.randrange(250, 650) #(200, 700)
         self.bot_pipe_end = self.gap_loc
         self.top_pipe_end = self.gap_loc - PIPE_GAP - PIPE_SURFACE.get_height()
         self.bot_pipe_surface = PIPE_SURFACE

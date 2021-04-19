@@ -46,10 +46,10 @@ class Game:
     #GENERATE PIPES
         if len(self.pipelist) == 0:
             for i in range (1, 5):#(1,5)
-                self.pipelist.append(Pipe(WIDTH + i*PIPE_SPACING))#WIDTH + i*PIPE_SPACING
+                self.pipelist.append(Pipe(WIDTH + i*PIPE_SPACING, 0))#WIDTH + i*PIPE_SPACING
     #DELETE PIPES WHEN THEY GO OFF SCREEN
         if self.pipelist[0].x_loc <= -PIPE_WIDTH:
-            self.pipelist.append(Pipe(WIDTH + PIPE_SPACING + self.pipelist[0].x_loc))
+            self.pipelist.append(Pipe(WIDTH + PIPE_SPACING + self.pipelist[0].x_loc, 0))
             self.pipelist.pop(0)
         
         
