@@ -16,13 +16,16 @@ class Score:
         else:
             self.score_surface = self.font1.render(f'SCORE {(self.score)}',1,(255,255,255))
             self.score_surface1 = self.font2.render(str('GAME OVER'),1,(255,255,255))
-            self.score_surface2 = self.font2.render(str('PRESS SPACE TO START AGAIN'),1,(255,255,255))
+            #self.score_surface2 = self.font2.render(str('PRESS SPACE TO START AGAIN'),1,(255,255,255))
+            self.menu3_surface = pygame.image.load("assets/menu3.png").convert()
             self.score_rect = self.score_surface.get_rect(center= (WIDTH/2,200))
             self.score_rect1 = self.score_surface1.get_rect(center= (WIDTH/2,300))
-            self.score_rect2 = self.score_surface2.get_rect(center= (WIDTH/2,400))
+            #self.score_rect2 = self.score_surface2.get_rect(center= (WIDTH/2,400))
+            self.menu_rect3 = self.menu3_surface.get_rect(center= (WIDTH/2+20,400)) # (320,350)
             SCREEN.blit(self.score_surface,self.score_rect)
             SCREEN.blit(self.score_surface1,self.score_rect1)
-            SCREEN.blit(self.score_surface2,self.score_rect2)           
+            self.menu_display(260, 380, 120, 40, self.menu3_surface, self.menu_rect3)    
+            print('yes')
             
 
     def start_display(self):

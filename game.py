@@ -7,9 +7,8 @@ from score import *
 from sound import *
 from level import *
 class Game:
-
     def __init__(self):
-
+        #pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer= 512, devicename=None)
         pygame.init()
         pygame.display.set_caption("Flappy Bird")
         self.base = Base()
@@ -20,7 +19,8 @@ class Game:
         self.Sound = Sound()
         self.easy_mode = False
         self.game_over = False
-                
+        self.menu = pygame.mouse.get_pos()
+        self.click = pygame.mouse.get_pressed()
     def draw_window(self):
         SCREEN.blit(BG_SURFACE,(0,0))
         for pipe in self.pipelist:
@@ -35,7 +35,6 @@ class Game:
         #     if self.level.orbs[0].collide(self.birdObj):
         #         self.level.orbs.pop(0)
 
-
     def draw_start_window(self):
         SCREEN.blit(BG_SURFACE,(0,0))
         for pipe in self.pipelist:
@@ -43,7 +42,6 @@ class Game:
         self.base.draw()
         self.birdObj.draw_bird()
         self.Score.start_display()
-
     def generate_pipes(self):
     #GENERATE PIPES
         if len(self.pipelist) == 0:
@@ -52,9 +50,9 @@ class Game:
     #DELETE PIPES WHEN THEY GO OFF SCREEN
         if self.pipelist[0].x_loc <= -PIPE_WIDTH:
             self.pipelist.append(Pipe(WIDTH + PIPE_SPACING + self.pipelist[0].x_loc))
-            self.pipelist.pop(0)       
-    
-    
+            self.pipelist.pop(0)
+        
+        
     def game_loop(self, start):
         #self.draw_window()
         #pygame.display.update()
@@ -86,7 +84,7 @@ class Game:
         start = False
         run = True
         while run:
-            pygame.mixer.music.play(-1) 
+            pygame.mixer.music.play(-1)
             while not self.game_over:
                 CLOCK.tick(FPS)
                 for event in pygame.event.get():
@@ -95,36 +93,32 @@ class Game:
                         self.game_over = True
                     if event.type == GAME_OVER:
                         self.game_over = True
-                    if event.type == pygame.KEYDOWN:
+                    if event.type == pygame.MOUSEBUTTONDOWN and ((260+120) > event.pos[0] > 260 and (320+40) > event.pos[1] > 320):
                         start = True
-                        if event.key == pygame.K_SPACE:
-                            self.easy_mode = False
-                            self.birdObj.jump_bird()
-
-#EASY MODE CONTROLS
-                    keys = pygame.key.get_pressed()
-                    if keys[pygame.K_UP]:
+                        self.easy_mode = False   
+                    if event.type == pygame.MOUSEBUTTONDOWN and ((260+120) > event.pos[0] > 260 and (395+45) > event.pos[1] > 395):   #EASY MODE CONTROLS 
+                        start = True
                         self.easy_mode = True
-                        self.birdObj.easy_mode_move("up")
-                    if keys[pygame.K_DOWN]:
-                        self.easy_mode = True
-                        self.birdObj.easy_mode_move("down")
-
-                    if run == True: self.game_loop(start)
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_UP]: 
+                    self.birdObj.easy_mode_move("up")
+                if keys[pygame.K_DOWN]: 
+                    self.birdObj.easy_mode_move("down")
+                if keys[pygame.K_SPACE]: 
+                    self.birdObj.jump_bird()
+                if run == True: self.game_loop(start)
     #Restart game on space press
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        self.base = Base()
-                        self.birdObj = Bird()
-                        self.pipelist = []
-                        self.Score = Score()
-                        start = False
-                        self.game_over = False
+                if event.type == pygame.MOUSEBUTTONDOWN and ((260+120) > event.pos[0] > 260 and (380+40) > event.pos[1] > 380):
+                    self.base = Base()
+                    self.birdObj = Bird()
+                    self.pipelist = []
+                    self.Score = Score()
+                    start = False
+                    self.game_over = False
                         
         pygame.quit()
-
 game = Game()
 game.main() 
