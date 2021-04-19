@@ -28,6 +28,7 @@ class Bird:
     def bird_fall(self):
         self.rot_angle = -self.falling_vel * 5
         self.falling_vel += FALLING_ACC
+        if self.falling_vel > TERMINAL_VEL: self.falling_vel = TERMINAL_VEL
         self.y_loc += self.falling_vel
         self.boundary = BIRD_SURFACE.get_rect(topleft = (self.x_loc, self.y_loc))
         self.in_bounds_check()
