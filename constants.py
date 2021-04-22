@@ -39,6 +39,7 @@ JUMP_HEIGHT = -6 #-6
 
 #Orb constants
 ORB_DIM = (20, 20)
+COIN_COLLISION = pygame.USEREVENT + 1
 
 #derived constants
 FLOOR = HEIGHT - BASE_HEIGHT
