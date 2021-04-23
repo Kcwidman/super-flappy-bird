@@ -26,13 +26,24 @@ class Game:
         self.menu = pygame.mouse.get_pos()
         self.click = pygame.mouse.get_pressed()
         
-    def draw_window(self):
-        SCREEN.blit(BG_SURFACE,(0,0))
-        for pipe in self.pipelist:
-            pipe.draw_pipe()
-        self.base.draw()
-        self.birdObj.draw_bird()
-        self.Score.score_display(self.game_over)
+    def draw_window(self,game_over):
+        if game_over== False:
+            SCREEN.blit(BG_SURFACE,(0,0))
+            for pipe in self.pipelist:
+                pipe.draw_pipe()
+            self.base.draw()
+            self.birdObj.draw_bird()
+            self.Score.score_display(self.game_over)
+        else:
+            SCREEN.blit(BG_SURFACE,(0,0))
+            for pipe in self.pipelist:
+                pipe.draw_pipe()
+            self.base.draw()
+            self.birdObj.draw_bird()
+            self.Score.score_display(self.game_over)
+            self.Score.score_display(self.game_over)
+
+
 #experimenting with orbs
         # if self.level.orbs:
         #     self.level.orbs[0].move()
@@ -63,7 +74,7 @@ class Game:
         #self.draw_window()
         #pygame.display.update()
         if self.start and not self.game_over:
-                self.draw_window()
+                self.draw_window(self.game_over)
                 pygame.display.update()
     #Affect pipes
                 if not self.level_mode: self.generate_pipes() #only randomly generate pipes if not in level mode
@@ -88,7 +99,7 @@ class Game:
             self.draw_start_window()
             pygame.display.update()
         else:
-            self.draw_window()
+            self.draw_window(self.game_over)
             pygame.display.update()
 
 
