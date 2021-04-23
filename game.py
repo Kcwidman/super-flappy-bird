@@ -14,13 +14,15 @@ class Game:
         self.base = Base()
         self.birdObj = Bird()
         self.pipelist = []
-        self.level = Level(1)
+        self.orblist = []
+        self.level = None
+        self.levelNum = 0;
+        self.level_mode = False
         self.Score = Score()
         self.Sound = Sound()
         self.easy_mode = False
         self.game_over = False
-        self.level_mode = False
-        self.level_init = True
+
         self.start = False
         self.run = True
         self.menu = pygame.mouse.get_pos()
@@ -45,11 +47,8 @@ class Game:
 
 
 #experimenting with orbs
-        # if self.level.orbs:
-        #     self.level.orbs[0].move()
-        #     self.level.orbs[0].draw_orb()
-        #     if self.level.orbs[0].collide(self.birdObj):
-        #         self.level.orbs.pop(0)
+        for orb in self.orblist:
+            orb.draw_orb()
 
     def draw_start_window(self):
         SCREEN.blit(BG_SURFACE,(0,0))
@@ -71,30 +70,34 @@ class Game:
         
         
     def game_loop(self):
-        #self.draw_window()
-        #pygame.display.update()
         if self.start and not self.game_over:
-                self.draw_window(self.game_over)
-                pygame.display.update()
-    #Affect pipes
-                if not self.level_mode: self.generate_pipes() #only randomly generate pipes if not in level mode
-        #tally score
-                for pipe in self.pipelist:
-                    if pipe.scorecal(self.birdObj) == True:
-                        self.Score.score += 1
-                        self.Sound.score_sound.play()
-        #move pipes
-                for pipe in self.pipelist:
-                    if pipe.collide(self.birdObj) == True:
-                        self.Sound.hit.play()
-                        pygame.event.post(pygame.event.Event(GAME_OVER))
-                    pipe.move()
-    #Check for base collision
-                if self.base.collide(self.birdObj) == True:
+            self.draw_window()
+            pygame.display.update()
+#Affect pipes
+            if not self.level_mode: self.generate_pipes() #only randomly generate pipes if not in level mode
+    #tally score
+            for pipe in self.pipelist:
+                if pipe.scorecal(self.birdObj) == True:
+                    self.Score.score += 1
+                    self.Sound.score_sound.play()
+    #move pipes
+            for pipe in self.pipelist:
+                if pipe.collide(self.birdObj) == True:
                     self.Sound.hit.play()
                     pygame.event.post(pygame.event.Event(GAME_OVER))
-    #Move the bird
-                if self.easy_mode == False: self.birdObj.bird_fall()
+                pipe.move()
+    #move orbs
+            for orb in self.orblist:
+                if orb.collide(self.birdObj) == True:
+                    self.orblist.remove(orb)
+                else: orb.move()
+#Check for base collision
+            if self.base.collide(self.birdObj) == True:
+                self.Sound.hit.play()
+                pygame.event.post(pygame.event.Event(GAME_OVER))
+#Move the bird
+            if self.easy_mode == False: self.birdObj.bird_fall()
+
         elif self.game_over == False:
             self.draw_start_window()
             pygame.display.update()
@@ -107,10 +110,6 @@ class Game:
     def intro_loop(self):
         CLOCK.tick(FPS)
         self.game_loop()
-        if self.level_mode:
-            if self.level_init:
-                self.pipelist = self.level.pipes;
-                self.level_init = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.run = False
@@ -121,7 +120,13 @@ class Game:
             if event.type == pygame.MOUSEBUTTONDOWN and ((260+120) > event.pos[0] > 260 and (395+45) > event.pos[1] > 395):   #EASY MODE CONTROLS 
                 self.start = True
                 self.easy_mode = True
-                # self.level_mode = True
+                self.level_mode = True
+                self.levelNum = 1
+        if self.level_mode:
+            self.level = Level(self.levelNum)
+            self.pipelist = self.level.pipes
+            self.orblist = self.level.orbs
+
 
     def middle_loop(self):
         CLOCK.tick(FPS)
@@ -145,6 +150,7 @@ class Game:
 
         if self.game_over: self.game_loop()
     
+    
     def end_loop(self):
         CLOCK.tick(FPS)
         for event in pygame.event.get():
@@ -158,7 +164,7 @@ class Game:
                 self.Score = Score()
                 self.start = False
                 self.game_over = False
-                self.level_init = True
+                self.level_mode = False
 
     def main(self):
         pygame.mixer.music.play(-1)
