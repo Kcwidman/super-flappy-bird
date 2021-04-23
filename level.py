@@ -1,8 +1,7 @@
 from constants import *
 from orb import *
 from pipe import *
-from slowMo import *
-from coin import *
+from powerUps import *
 class Level:
 
     def __init__(self, level_num):
@@ -27,6 +26,8 @@ class Level:
                     self.orbs.append( Coin(x_loc, y_loc) )
                 if orb_type == "slowMo":
                     self.orbs.append( SlowMo(x_loc, y_loc) )
+                if orb_type == "firePower":
+                    self.orbs.append( FirePower(x_loc, y_loc) )
             elif self.flag == "pipes":
                 data = s.split()
                 self.pipes.append(Pipe(int(data[0]), int(data[1])))

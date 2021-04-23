@@ -1,6 +1,6 @@
 ORBS
-coin 300 300
-slowMo 300 400
+coin 300 500
+firePower 400 450
 PIPES
 500 200
 700 500

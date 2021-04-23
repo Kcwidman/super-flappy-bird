@@ -3,7 +3,7 @@ import pygame
 #global constants
 CLOCK = pygame.time.Clock()
 FPS = 60
-VEL = 2
+VEL = 2 #2
 GAME_OVER = pygame.USEREVENT + 1
 
 #window constants
@@ -34,14 +34,13 @@ BIRD_START_Y_LOC = 450
 BIRD_WIDTH = BIRD_HEIGHT = 50
 BIRD_SURFACE = pygame.image.load("assets/bird1.png").convert_alpha()
 FALLING_ACC = 0.4 #0.4
-TERMINAL_VEL = 9
+TERMINAL_VEL = 9 #9
 JUMP_HEIGHT = -6 #-6
 
 #Orb constants
-ORB_DIM = (20, 20)
+ORB_DIM = (30, 30)
 COIN_COLLISION = pygame.USEREVENT + 2
+SLOW_MO = pygame.USEREVENT + 3
 
 #derived constants
 FLOOR = HEIGHT - BASE_HEIGHT
-
-

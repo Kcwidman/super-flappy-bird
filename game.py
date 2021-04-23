@@ -116,6 +116,10 @@ class Game:
             self.pipelist = self.level.pipes
             self.orblist = self.level.orbs
 
+    def power_up_handling(self, event):
+        if event.type == COIN_COLLISION:
+            self.Score.coin_count += 1
+            self.Sound.score_sound.play()
 
     def middle_loop(self):
         CLOCK.tick(FPS)
@@ -126,6 +130,8 @@ class Game:
                 self.game_over = True
             if event.type == GAME_OVER:
                 self.game_over = True
+            self.power_up_handling(event)
+
 #controls
         keys = pygame.key.get_pressed()
         if self.easy_mode:
@@ -139,7 +145,7 @@ class Game:
 
         if self.game_over: self.game_loop()
     
-    
+
     def end_loop(self):
         CLOCK.tick(FPS)
         for event in pygame.event.get():
