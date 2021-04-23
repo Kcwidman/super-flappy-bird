@@ -21,12 +21,22 @@ class FirePower(Orb):
         self.orb_surface = pygame.image.load("assets/powerUps/fire_token.png").convert_alpha()
         self.orb_surface = pygame.transform.scale(self.orb_surface, ORB_DIM)
     def power_up(self):
-        print("pewpew")
+        pygame.event.post(pygame.event.Event(FIRE_POWER))
 
 class Ghost(Orb):
+    def __init__(self, x, y):
+        self.x_loc = x
+        self.y_loc = y
+        self.orb_surface = pygame.image.load("assets/powerUps/ghost_token.png").convert_alpha()
+        self.orb_surface = pygame.transform.scale(self.orb_surface, ORB_DIM)
     def power_up(self):
-        print("BOO!")
-
+        pygame.event.post(pygame.event.Event(GHOST))
+        
 class ScoreMult(Orb):
+    def __init__(self, x, y):
+        self.x_loc = x
+        self.y_loc = y
+        self.orb_surface = pygame.image.load("assets/powerUps/mult_token.png").convert_alpha()
+        self.orb_surface = pygame.transform.scale(self.orb_surface, ORB_DIM)
     def power_up(self):
-        print("x2!")
+        pygame.event.post(pygame.event.Event(SCORE_MULT))

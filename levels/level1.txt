@@ -1,6 +1,9 @@
 ORBS
 coin 300 500
-firePower 400 450
+firePower 350 450
+ghost 400 400
+scoreMult 450 350
 PIPES
-500 200
-700 500
+700 200
+900 500
+1100 400

@@ -32,15 +32,18 @@ PIPE_SURFACE = pygame.transform.scale(PIPE_SURFACE, (PIPE_WIDTH, 600))
 BIRD_START_X_LOC = 150
 BIRD_START_Y_LOC = 450
 BIRD_WIDTH = BIRD_HEIGHT = 50
-BIRD_SURFACE = pygame.image.load("assets/bird1.png").convert_alpha()
+BIRD_SURFACE = pygame.image.load("assets/bird_up.png").convert_alpha()
 FALLING_ACC = 0.4 #0.4
 TERMINAL_VEL = 9 #9
 JUMP_HEIGHT = -6 #-6
 
 #Orb constants
 ORB_DIM = (30, 30)
-COIN_COLLISION = pygame.USEREVENT + 2
 SLOW_MO = pygame.USEREVENT + 3
+COIN_COLLISION = pygame.USEREVENT + 2
+FIRE_POWER = pygame.USEREVENT + 4
+GHOST = pygame.USEREVENT + 5
+SCORE_MULT = pygame.USEREVENT + 6
 
 #derived constants
 FLOOR = HEIGHT - BASE_HEIGHT

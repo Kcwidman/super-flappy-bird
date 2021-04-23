@@ -1,4 +1,6 @@
 import sys
+import time
+#local imports
 from constants import *
 from bird import *
 from base import *
@@ -6,6 +8,9 @@ from pipe import *
 from score import *
 from sound import *
 from level import *
+
+
+
 class Game:
     def __init__(self):
         #pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer= 512, devicename=None)
@@ -22,11 +27,25 @@ class Game:
         self.Sound = Sound()
         self.easy_mode = False
         self.game_over = False
+        self.ghost_mode = False
+        self.scoreMult_mode = False
+        self.firePower_mode = False
+        self.firePower_shot = 0
 
         self.start = False
         self.run = True
         self.menu = pygame.mouse.get_pos()
         self.click = pygame.mouse.get_pressed()
+
+#helper function that calls func after a delay, can only be used in middle_loop
+    def after(self, delay, func):
+        start_time = time.time()
+        loop = True
+        while loop:
+            if time.time() - start_time > delay/1000:
+                func()
+                loop = False
+            else: self.middle_loop()
         
     def draw_window(self):
         SCREEN.blit(BG_SURFACE,(0,0))
@@ -38,6 +57,7 @@ class Game:
 #experimenting with orbs
         for orb in self.orblist:
             orb.draw_orb()
+        pygame.display.update()
 
     def draw_start_window(self):
         SCREEN.blit(BG_SURFACE,(0,0))
@@ -46,6 +66,7 @@ class Game:
         self.base.draw()
         self.birdObj.draw_bird()
         self.Score.start_display()
+        pygame.display.update()
 
     def generate_pipes(self):
     #GENERATE PIPES
@@ -61,17 +82,17 @@ class Game:
     def game_loop(self):
         if self.start and not self.game_over:
             self.draw_window()
-            pygame.display.update()
 #Affect pipes
             if not self.level_mode: self.generate_pipes() #only randomly generate pipes if not in level mode
     #tally score
             for pipe in self.pipelist:
                 if pipe.scorecal(self.birdObj) == True:
-                    self.Score.score += 1
+                    if self.scoreMult_mode == True: self.Score.score += 2
+                    else: self.Score.score += 1
                     self.Sound.score_sound.play()
     #move pipes
             for pipe in self.pipelist:
-                if pipe.collide(self.birdObj) == True:
+                if pipe.collide(self.birdObj) == True and not self.ghost_mode:
                     self.Sound.hit.play()
                     pygame.event.post(pygame.event.Event(GAME_OVER))
                 pipe.move()
@@ -86,13 +107,12 @@ class Game:
                 pygame.event.post(pygame.event.Event(GAME_OVER))
 #Move the bird
             if self.easy_mode == False: self.birdObj.bird_fall()
+            self.birdObj.handle_projectile()
 
         elif self.game_over == False:
             self.draw_start_window()
-            pygame.display.update()
         else:
             self.draw_window()
-            pygame.display.update()
 
 
 ###################################################################################################            
@@ -120,6 +140,15 @@ class Game:
         if event.type == COIN_COLLISION:
             self.Score.coin_count += 1
             self.Sound.score_sound.play()
+        elif event.type == FIRE_POWER:
+            self.Sound.score_sound.play()
+            self.firePower_start()
+        elif event.type == GHOST:
+            self.Sound.score_sound.play()
+            self.ghost_start()
+        elif event.type == SCORE_MULT:
+            self.Sound.score_sound.play()
+            self.scoreMult_start()
 
     def middle_loop(self):
         CLOCK.tick(FPS)
@@ -131,7 +160,6 @@ class Game:
             if event.type == GAME_OVER:
                 self.game_over = True
             self.power_up_handling(event)
-
 #controls
         keys = pygame.key.get_pressed()
         if self.easy_mode:
@@ -139,6 +167,8 @@ class Game:
                 self.birdObj.easy_mode_move("up")
             if keys[pygame.K_DOWN]: 
                 self.birdObj.easy_mode_move("down")
+            if keys[pygame.K_f]:
+                self.birdObj.fire()
         else:
             if keys[pygame.K_SPACE]: 
                 self.birdObj.jump_bird()
@@ -162,7 +192,7 @@ class Game:
                 self.level_mode = False
 
     def main(self):
-        pygame.mixer.music.play(-1)
+        # pygame.mixer.music.play(-1)
         while self.run:
             if not self.game_over and not self.start: #run before the game starts
                 self.intro_loop()
@@ -172,6 +202,34 @@ class Game:
                 self.end_loop()
                         
         pygame.quit()
+
+    def ghost_start(self):
+        self.ghost_mode = True
+        self.birdObj.change_skin("ghost")
+        self.after(5000, self.ghost_end)
+
+    def ghost_end(self):
+        self.birdObj.change_skin("normal")
+        self.ghost_mode = False
+
+    def scoreMult_start(self):
+        self.scoreMult_mode = True
+        self.birdObj.change_skin("scoreMult")
+        self.after(10000, self.scoreMult_end)
+
+    def scoreMult_end(self):
+        self.birdObj.change_skin("normal")
+        self.scoreMult_mode = False
+
+    def firePower_start(self):
+        self.firePower_mode = True
+        self.birdObj.change_skin("firePower")
+        if self.firePower_shot > 6:
+            self.firePower_end()
+
+    def firePower_end(self):
+        self.birdObj.change_skin("normal")
+        self.firePower_mode = False
 
 #executable code        
 game = Game()
