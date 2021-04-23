@@ -4,8 +4,8 @@ class Orb:
     def __init__(self, x, y):
         self.x_loc = x
         self.y_loc = y
-        self.orb_surface = pygame.image.load("assets/coin.png").convert_alpha()
-        self.orb_surface = pygame.transform.scale(self.orb_surface, ORB_DIM)
+        self.orb_surface = None
+        self.orb_surface = None
 
     def move(self):
         self.x_loc -= VEL

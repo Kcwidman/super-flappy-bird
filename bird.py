@@ -1,9 +1,9 @@
 from constants import *
 
 class Bird:
-    birdDown = pygame.image.load('assets/bird3.png').convert_alpha()
-    birdCenter = pygame.image.load('assets/bird2.png').convert_alpha()
-    birdUp = pygame.image.load('assets/bird1.png').convert_alpha()
+    birdDown = pygame.image.load('assets/bird_down.png').convert_alpha()
+    birdCenter = pygame.image.load('assets/bird_mid.png').convert_alpha()
+    birdUp = pygame.image.load('assets/bird_up.png').convert_alpha()
     birdFrame = [birdDown, birdCenter, birdUp]
     tick_count = 0
     falling_vel = 0
@@ -13,6 +13,35 @@ class Bird:
     y_loc = BIRD_START_Y_LOC
     x_loc = BIRD_START_X_LOC
     boundary = BIRD_SURFACE.get_rect(topleft = (x_loc, y_loc))
+    power_mode = ""
+    projectile = None
+
+    def change_skin(self, power):
+        self.power_mode = power #allow game to see what mode the bird is in
+        if power == "normal":
+            self.birdDown = pygame.image.load('assets/bird_down.png').convert_alpha()
+            self.birdCenter = pygame.image.load('assets/bird_mid.png').convert_alpha()
+            self.birdUp = pygame.image.load('assets/bird_up.png').convert_alpha()
+            self.birdFrame = [self.birdDown, self.birdCenter, self.birdUp]
+
+        if power == "ghost":
+            self.birdDown = pygame.image.load('assets/powerUps/ghost_down.png').convert_alpha()
+            self.birdCenter = pygame.image.load('assets/powerUps/ghost_mid.png').convert_alpha()
+            self.birdUp = pygame.image.load('assets/powerUps/ghost_up.png').convert_alpha()
+            self.birdFrame = [self.birdDown, self.birdCenter, self.birdUp]
+
+        if power == "firePower":
+            self.birdDown = pygame.image.load('assets/powerUps/fire_down.png').convert_alpha()
+            self.birdCenter = pygame.image.load('assets/powerUps/fire_mid.png').convert_alpha()
+            self.birdUp = pygame.image.load('assets/powerUps/fire_up.png').convert_alpha()
+            self.birdFrame = [self.birdDown, self.birdCenter, self.birdUp]
+
+        if power == "scoreMult":
+            self.birdDown = pygame.image.load('assets/powerUps/mult_down.png').convert_alpha()
+            self.birdCenter = pygame.image.load('assets/powerUps/mult_mid.png').convert_alpha()
+            self.birdUp = pygame.image.load('assets/powerUps/mult_up.png').convert_alpha()
+            self.birdFrame = [self.birdDown, self.birdCenter, self.birdUp]
+
     def animate_bird(self):
         self.tick_count += 1
         if self.tick_count % 3 == 0:
@@ -50,3 +79,19 @@ class Bird:
         if self.y_loc < 0:
             self.y_loc = 0
             self.boundary = BIRD_SURFACE.get_rect(topleft = (self.x_loc, self.y_loc))
+
+    def fire(self):
+        self.projectile = pygame.Rect(BIRD_START_X_LOC + 100, BIRD_START_Y_LOC, 50, 20)
+    
+    def draw_projectile(self):
+        pygame.draw.rect(SCREEN, (255,255,255), self.projectile)
+
+    def move_projectile(self):
+        self.projectile.left += VEL
+
+    def handle_projectile(self):
+        self.fire()
+        self.move_projectile()
+        self.draw_projectile()
+
+    

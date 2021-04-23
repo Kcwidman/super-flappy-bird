@@ -3,6 +3,7 @@ class Score:
 
     def __init__(self):
         self.score = 0
+        self.coin_count = 0
         self.start = "LET'S PLAY !!!"
         
         #self.high_score = 0
@@ -10,9 +11,13 @@ class Score:
         self.font2 = pygame.font.Font("assets/04B_19.TTF", 20)
     def score_display(self,game_over):
         if (game_over == False):
-         self.score_surface = self.font1.render(str(self.score),1,(255,255,255))
-         self.score_rect = self.score_surface.get_rect(center= (WIDTH/2,200))
+         self.score_surface = self.font1.render("SCORE: " + str(self.score),1,(255,255,255))
+         self.score_rect = self.score_surface.get_rect(center= (WIDTH/2,150))
          SCREEN.blit(self.score_surface,self.score_rect)
+        #display coin count
+         self.coin_surface = self.font1.render("COINS: " + str(self.coin_count),1,(255,255,255))
+         self.coin_rect = self.coin_surface.get_rect(center= (WIDTH/2,220))
+         SCREEN.blit(self.coin_surface,self.coin_rect)
         else:
             self.score_surface = self.font1.render(f'SCORE {(self.score)}',1,(255,255,255))
             self.score_surface1 = self.font2.render(str('GAME OVER'),1,(255,255,255))
