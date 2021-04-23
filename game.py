@@ -28,27 +28,18 @@ class Game:
         self.menu = pygame.mouse.get_pos()
         self.click = pygame.mouse.get_pressed()
         
-    def draw_window(self,game_over):
-        if game_over== False:
+    def draw_window(self):
             SCREEN.blit(BG_SURFACE,(0,0))
             for pipe in self.pipelist:
                 pipe.draw_pipe()
             self.base.draw()
             self.birdObj.draw_bird()
-            self.Score.score_display(self.game_over)
-        else:
-            SCREEN.blit(BG_SURFACE,(0,0))
-            for pipe in self.pipelist:
-                pipe.draw_pipe()
-            self.base.draw()
-            self.birdObj.draw_bird()
-            self.Score.score_display(self.game_over)
             self.Score.score_display(self.game_over)
 
 
 #experimenting with orbs
-        for orb in self.orblist:
-            orb.draw_orb()
+   # for orb in self.orblist:
+            #orb.draw_orb()
 
     def draw_start_window(self):
         SCREEN.blit(BG_SURFACE,(0,0))
@@ -102,7 +93,7 @@ class Game:
             self.draw_start_window()
             pygame.display.update()
         else:
-            self.draw_window(self.game_over)
+            self.draw_window()
             pygame.display.update()
 
 
@@ -114,14 +105,32 @@ class Game:
             if event.type == pygame.QUIT:
                 self.run = False
                 self.game_over = True
-            if event.type == pygame.MOUSEBUTTONDOWN and ((260+120) > event.pos[0] > 260 and (320+40) > event.pos[1] > 320):
-                self.start = True
-                self.easy_mode = False   
-            if event.type == pygame.MOUSEBUTTONDOWN and ((260+120) > event.pos[0] > 260 and (395+45) > event.pos[1] > 395):   #EASY MODE CONTROLS 
+            if event.type == pygame.MOUSEBUTTONDOWN and ((70+60) > event.pos[0] > 70 and (240+60) > event.pos[1] > 240):   #EASY MODE CONTROLS 
                 self.start = True
                 self.easy_mode = True
                 self.level_mode = True
                 self.levelNum = 1
+            if event.type == pygame.MOUSEBUTTONDOWN and ((270+60) > event.pos[0] > 270 and (240+60) > event.pos[1] > 240):   
+                self.start = True
+                self.easy_mode = False 
+                self.level_mode = True
+                self.levelNum = 1
+            if event.type == pygame.MOUSEBUTTONDOWN and ((470+60) > event.pos[0] > 470 and (240+60) > event.pos[1] > 240):   
+                self.start = True
+                self.easy_mode = False
+                self.level_mode = True
+                self.levelNum = 1
+            if event.type == pygame.MOUSEBUTTONDOWN and ((170+60) > event.pos[0] > 170 and (340+60) > event.pos[1] > 340):
+                self.start = True
+                self.easy_mode = False
+                self.level_mode = True
+                self.levelNum = 1
+            if event.type == pygame.MOUSEBUTTONDOWN and ((370+60) > event.pos[0] > 370 and (340+60) > event.pos[1] > 340):  
+                self.start = True
+                self.easy_mode = False
+                self.level_mode = True
+                self.levelNum = 1
+
         if self.level_mode:
             self.level = Level(self.levelNum)
             self.pipelist = self.level.pipes
@@ -167,7 +176,7 @@ class Game:
                 self.level_mode = False
 
     def main(self):
-        pygame.mixer.music.play(-1)
+        #pygame.mixer.music.play(-1)
         while self.run:
             if not self.game_over and not self.start: #run before the game starts
                 self.intro_loop()

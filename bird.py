@@ -13,13 +13,11 @@ class Bird:
     y_loc = BIRD_START_Y_LOC
     x_loc = BIRD_START_X_LOC
     boundary = BIRD_SURFACE.get_rect(topleft = (x_loc, y_loc))
-
     def animate_bird(self):
         self.tick_count += 1
         if self.tick_count % 3 == 0:
             self.frame_index = (self.frame_index + 1) % 3
         self.bird_img = pygame.transform.rotozoom(self.birdFrame[self.frame_index], max(-self.falling_vel * 5, -70), 1)
-      
 
     def draw_bird(self):
         self.animate_bird()

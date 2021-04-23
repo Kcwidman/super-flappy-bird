@@ -29,15 +29,23 @@ class Score:
 
     def start_display(self):
         self.start_surface = self.font1.render(str(self.start), 1, (255, 255, 255))
-        self.start_rect = self.start_surface.get_rect(center=(WIDTH / 2, 200))
-        self.menu1_surface = pygame.image.load("assets/menu1.png").convert()
-        self.menu2_surface = pygame.image.load("assets/menu2.png").convert()
-        self.menu_rect1 = self.menu1_surface.get_rect(center= (WIDTH/2+20,350)) # (320,350)
-        self.menu_rect2 = self.menu2_surface.get_rect(center= (WIDTH/2+20,425)) # (320,425)
+        self.start_rect = self.start_surface.get_rect(center=(WIDTH / 2, 100))
+        self.menu1_surface = pygame.image.load("assets/level1.png").convert()
+        self.menu2_surface = pygame.image.load("assets/level2.png").convert()
+        self.menu3_surface = pygame.image.load("assets/level3.png").convert()
+        self.menu4_surface = pygame.image.load("assets/level4.png").convert()
+        self.menu5_surface = pygame.image.load("assets/level5.png").convert()
+        self.menu_rect1 = self.menu1_surface.get_rect(center= (100,270)) # (320,350)
+        self.menu_rect2 = self.menu2_surface.get_rect(center= (300,270)) # (320,425)
+        self.menu_rect3 = self.menu3_surface.get_rect(center= (500,270)) # (320,350)
+        self.menu_rect4 = self.menu4_surface.get_rect(center= (200,370)) # (320,425)
+        self.menu_rect5 = self.menu5_surface.get_rect(center= (400,370)) # (320,350)
         SCREEN.blit(self.start_surface, self.start_rect)
-        self.menu_display(260, 320, 120, 40, self.menu1_surface, self.menu_rect1)
-        self.menu_display(260, 395, 120, 45, self.menu2_surface, self.menu_rect2)
-
+        self.menu_display(70, 240, 60, 60, self.menu1_surface, self.menu_rect1)
+        self.menu_display(270, 240, 60, 60, self.menu2_surface, self.menu_rect2)
+        self.menu_display(470, 240, 60, 60, self.menu3_surface, self.menu_rect3)
+        self.menu_display(170, 340, 60, 60, self.menu4_surface, self.menu_rect4)
+        self.menu_display(370, 340, 60, 60, self.menu5_surface, self.menu_rect5)
     def menu_display(self,X,Y,B,H,surface,surface_rect):
         self.mouse = pygame.mouse.get_pos()
         if (X+B) > self.mouse[0] > X and (Y+H) > self.mouse [1] > Y:
