@@ -66,7 +66,7 @@ class Game:
         for pipe in self.pipelist:
             pipe.draw_pipe()
         self.base.draw()
-        self.birdObj.draw_bird()
+        self.birdObj.draw_start_bird()
         self.Score.start_display()
         pygame.display.update()
 
@@ -212,7 +212,7 @@ class Game:
                 self.level_mode = False
 
     def main(self):
-        # pygame.mixer.music.play(-1)
+        pygame.mixer.music.play(-1)
         while self.run:
             if not self.game_over and not self.start: #run before the game starts
                 self.intro_loop()
