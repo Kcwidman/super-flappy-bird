@@ -48,7 +48,8 @@ class Game:
             if time.time() - start_time > delay/1000:
                 func()
                 loop = False
-            else: self.middle_loop()
+            elif not self.test_mode:
+                self.middle_loop()
         
     def draw_window(self):
         if not self.test_mode:
@@ -92,7 +93,8 @@ class Game:
         if self.start and not self.game_over:
             self.draw_window()
 #Affect pipes
-            if not self.level_mode: self.generate_pipes() #only randomly generate pipes if not in level mode
+            if not self.level_mode: 
+                self.generate_pipes() #only randomly generate pipes if not in level mode
     #tally score
             for pipe in self.pipelist:
                 if pipe.scorecal(self.birdObj) == True:
@@ -125,6 +127,7 @@ class Game:
                             pipe.health -= 1
                             self.projectile = None
                         if pipe.health == 0:#remove pipe if health drops to 0
+                            print("pipe removed")
                             self.pipelist.remove(pipe)
 #check if the last pipe reaches end to complete the level or if pipelist is empty
             if not self.pipelist or (self.level_mode and (self.pipelist[-1].x_loc + PIPE_WIDTH < 0)):
@@ -218,10 +221,7 @@ class Game:
             if keys[pygame.K_DOWN]: 
                 self.birdObj.easy_mode_move("down")
         if keys[pygame.K_f] and self.firePower_mode and not self.projectile:
-            self.projectile = Projectile(self.birdObj.x_loc, self.birdObj.y_loc)
-            self.firePower_shot_count += 1
-            if self.firePower_shot_count >= 4:
-                self.firePower_end()
+            self.fire()
         else:
             if keys[pygame.K_SPACE]: 
                 self.birdObj.jump_bird()
@@ -267,7 +267,7 @@ class Game:
         self.test_mode = True
         self.start = True
         count = 0
-        while count <= frames:#will step throught the game loop for as many frames as specified
+        while count <= frames - 1:#will step throught the game loop for as many frames as specified
             if not self.game_over:
                 self.middle_loop()
                 count += 1
@@ -302,3 +302,9 @@ class Game:
     def firePower_end(self):
         self.birdObj.change_skin("normal")
         self.firePower_mode = False
+
+    def fire(self):
+        self.projectile = Projectile(self.birdObj.x_loc, self.birdObj.y_loc)
+        self.firePower_shot_count += 1
+        if self.firePower_shot_count >= 4:
+            self.firePower_end()
