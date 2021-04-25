@@ -127,7 +127,6 @@ class Game:
                             pipe.health -= 1
                             self.projectile = None
                         if pipe.health == 0:#remove pipe if health drops to 0
-                            print("pipe removed")
                             self.pipelist.remove(pipe)
 #check if the last pipe reaches end to complete the level or if pipelist is empty
             if not self.pipelist or (self.level_mode and (self.pipelist[-1].x_loc + PIPE_WIDTH < 0)):
@@ -220,11 +219,15 @@ class Game:
                 self.birdObj.easy_mode_move("up")
             if keys[pygame.K_DOWN]: 
                 self.birdObj.easy_mode_move("down")
-        if keys[pygame.K_f] and self.firePower_mode and not self.projectile:
-            self.fire()
         else:
             if keys[pygame.K_SPACE]: 
                 self.birdObj.jump_bird()
+        #turn to easy mode if 'e' is pressed
+        if keys[pygame.K_e]:
+            self.easy_mode = True
+        if keys[pygame.K_f] and self.firePower_mode and not self.projectile:
+            self.fire()
+
 
         if self.game_over: self.game_loop()
     
@@ -273,7 +276,7 @@ class Game:
                 count += 1
             else:
                 break
-                        
+
     def end_testing(self):
         pygame.quit()
 
