@@ -142,7 +142,7 @@ class Game:
             if event.type == pygame.MOUSEBUTTONDOWN and ((140+120) > event.pos[0] > 140 and (455+30) > event.pos[1] > 455):   #EASY MODE
                 self.start = True
                 self.easy_mode = True
-                self.level_mode = True
+                self.level_mode = False
                 self.levelNum = 1
             if event.type == pygame.MOUSEBUTTONDOWN and ((340+120) > event.pos[0] > 340 and (455+30) > event.pos[1] > 455):   #NORMAL MODE
                 self.start = True
@@ -211,11 +211,11 @@ class Game:
                 self.birdObj.easy_mode_move("up")
             if keys[pygame.K_DOWN]: 
                 self.birdObj.easy_mode_move("down")
-            if keys[pygame.K_f] and self.firePower_mode and not self.projectile:
-                self.projectile = Projectile(self.birdObj.x_loc, self.birdObj.y_loc)
-                self.firePower_shot_count += 1
-                if self.firePower_shot_count >= 4:
-                    self.firePower_end()
+        if keys[pygame.K_f] and self.firePower_mode and not self.projectile:
+            self.projectile = Projectile(self.birdObj.x_loc, self.birdObj.y_loc)
+            self.firePower_shot_count += 1
+            if self.firePower_shot_count >= 4:
+                self.firePower_end()
         else:
             if keys[pygame.K_SPACE]: 
                 self.birdObj.jump_bird()
@@ -239,7 +239,7 @@ class Game:
                 self.level_mode = False
 
     def main(self):
-        #pygame.mixer.music.play(-1)
+        pygame.mixer.music.play(-1)
         while self.run:
             if not self.game_over and not self.start: #run before the game starts
                 self.intro_loop()
