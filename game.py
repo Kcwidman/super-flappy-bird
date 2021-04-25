@@ -96,11 +96,11 @@ class Game:
                 if pipe.scorecal(self.birdObj) == True:
                     if self.scoreMult_mode == True: self.Score.score += 2
                     else: self.Score.score += 1
-                    self.Sound.score_sound.play()
+                    #self.Sound.score_sound.play()
     #move pipes
             for pipe in self.pipelist:
                 if pipe.collide(self.birdObj) == True and not self.ghost_mode: #don't check for collision on ghost mode
-                    self.Sound.hit.play()
+                    #self.Sound.hit.play()
                     pygame.event.post(pygame.event.Event(GAME_OVER))
                 pipe.move()
     #move orbs
@@ -110,7 +110,7 @@ class Game:
                 else: orb.move()
 #Check for base collision
             if self.base.collide(self.birdObj) == True:
-                self.Sound.hit.play()
+                #self.Sound.hit.play()
                 pygame.event.post(pygame.event.Event(GAME_OVER))#end game 
 #Move the bird
             if self.easy_mode == False: self.birdObj.bird_fall() #move the bird if easy mode not activated
@@ -151,12 +151,12 @@ class Game:
                 self.level_mode = False
             if event.type == pygame.MOUSEBUTTONDOWN and ((70+60) > event.pos[0] > 70 and (240+60) > event.pos[1] > 240):   #LEVEL 1
                 self.start = True
-                self.easy_mode = False
+                self.easy_mode = True
                 self.level_mode = True
                 self.levelNum = 1
             if event.type == pygame.MOUSEBUTTONDOWN and ((270+60) > event.pos[0] > 270 and (240+60) > event.pos[1] > 240):    #LEVEL 2
                 self.start = True
-                self.easy_mode = False 
+                self.easy_mode = True 
                 self.level_mode = True
                 self.levelNum = 2
             if event.type == pygame.MOUSEBUTTONDOWN and ((470+60) > event.pos[0] > 470 and (240+60) > event.pos[1] > 240):    #LEVEL 3
@@ -166,7 +166,7 @@ class Game:
                 self.levelNum = 3
             if event.type == pygame.MOUSEBUTTONDOWN and ((170+60) > event.pos[0] > 170 and (340+60) > event.pos[1] > 340):   #LEVEL 4
                 self.start = True
-                self.easy_mode = False
+                self.easy_mode = True
                 self.level_mode = True
                 self.levelNum = 4
             if event.type == pygame.MOUSEBUTTONDOWN and ((370+60) > event.pos[0] > 370 and (340+60) > event.pos[1] > 340):   #LEVEL 5
@@ -183,15 +183,15 @@ class Game:
     def power_up_handling(self, event):
         if event.type == COIN_COLLISION:
             self.Score.coin_count += 1
-            self.Sound.score_sound.play()
+           # self.Sound.score_sound.play()
         elif event.type == FIRE_POWER:
             self.Sound.score_sound.play()
-            self.firePower_start()
+            #self.firePower_start()
         elif event.type == GHOST:
-            self.Sound.score_sound.play()
+            #self.Sound.score_sound.play()
             self.ghost_start()
         elif event.type == SCORE_MULT:
-            self.Sound.score_sound.play()
+            #self.Sound.score_sound.play()
             self.scoreMult_start()
 
     def middle_loop(self):
@@ -244,7 +244,7 @@ class Game:
                 self.level_complete = False
 
     def main(self):
-        pygame.mixer.music.play(-1)
+        #pygame.mixer.music.play(-1)
         while self.run:
             if not self.game_over and not self.start: #run before the game starts
                 self.intro_loop()
