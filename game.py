@@ -12,7 +12,7 @@ from projectile import *
 
 class Game:
     def __init__(self):
-        #pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer= 512, devicename=None)
+        # pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer= 512, devicename=None)
         pygame.init()
         pygame.display.set_caption("Flappy Bird")
         self.base = Base()
@@ -35,6 +35,7 @@ class Game:
 
         self.start = False
         self.run = True
+        self.test_mode = False
         self.menu = pygame.mouse.get_pos()
         self.click = pygame.mouse.get_pressed()
 
@@ -50,21 +51,22 @@ class Game:
             else: self.middle_loop()
         
     def draw_window(self):
-        SCREEN.blit(BG_SURFACE,(0,0))
-        #draw pipes
-        for pipe in self.pipelist:
-                pipe.draw_pipe()
-        self.base.draw()
-        self.birdObj.draw_bird()
-        self.Score.score_display(self.game_over, self.level_complete)
-        #draw projectile
-        if self.projectile:
-            self.projectile.draw_projectile()
-        #draw orbs
-        for orb in self.orblist:
-                orb.draw_orb()
+        if not self.test_mode:
+            SCREEN.blit(BG_SURFACE,(0,0))
+            #draw pipes
+            for pipe in self.pipelist:
+                    pipe.draw_pipe()
+            self.base.draw()
+            self.birdObj.draw_bird()
+            self.Score.score_display(self.game_over, self.level_complete)
+            #draw projectile
+            if self.projectile:
+                self.projectile.draw_projectile()
+            #draw orbs
+            for orb in self.orblist:
+                    orb.draw_orb()
 
-        pygame.display.update()
+            pygame.display.update()
 
     def draw_start_window(self):
         SCREEN.blit(BG_SURFACE,(0,0))
@@ -124,8 +126,8 @@ class Game:
                             self.projectile = None
                         if pipe.health == 0:#remove pipe if health drops to 0
                             self.pipelist.remove(pipe)
-#check if the last pipe reaches end to complete the level
-            if self.level_mode and (self.pipelist[-1].x_loc + PIPE_WIDTH < 0): 
+#check if the last pipe reaches end to complete the level or if pipelist is empty
+            if not self.pipelist or (self.level_mode and (self.pipelist[-1].x_loc + PIPE_WIDTH < 0)):
                 pygame.event.post(pygame.event.Event(LEVEL_COMPLETE))
         elif self.game_over == False:
             self.draw_start_window()
@@ -195,7 +197,7 @@ class Game:
             self.scoreMult_start()
 
     def middle_loop(self):
-        CLOCK.tick(FPS)
+        if not self.test_mode: CLOCK.tick(FPS)#this dramatically speeds up tests
         self.game_loop()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -242,6 +244,11 @@ class Game:
                 self.game_over = False
                 self.level_mode = False
                 self.level_complete = False
+                self.ghost_mode = False
+                self.scoreMult_mode = False
+                self.firePower_mode = False
+                self.firePower_shot_count = 0
+                self.projectile = None
 
     def main(self):
         pygame.mixer.music.play(-1)
@@ -253,6 +260,21 @@ class Game:
             else:                                   #run after the game ends but before the next game begins
                 self.end_loop()
                         
+            pygame.quit()
+
+#used in the test suite
+    def test_main(self, frames):
+        self.test_mode = True
+        self.start = True
+        count = 0
+        while count <= frames:#will step throught the game loop for as many frames as specified
+            if not self.game_over:
+                self.middle_loop()
+                count += 1
+            else:
+                break
+                        
+    def end_testing(self):
         pygame.quit()
 
     def ghost_start(self):
@@ -280,7 +302,3 @@ class Game:
     def firePower_end(self):
         self.birdObj.change_skin("normal")
         self.firePower_mode = False
-
-#executable code        
-game = Game()
-game.main() 
