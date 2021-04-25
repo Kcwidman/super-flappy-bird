@@ -260,7 +260,7 @@ class Game:
             else:                                   #run after the game ends but before the next game begins
                 self.end_loop()
                         
-            pygame.quit()
+            pygame.QUIT
 
 #used in the test suite
     def test_main(self, frames):
