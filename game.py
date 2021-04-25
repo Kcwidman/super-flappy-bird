@@ -8,8 +8,7 @@ from pipe import *
 from score import *
 from sound import *
 from level import *
-
-
+from projectile import *
 
 class Game:
     def __init__(self):
@@ -21,7 +20,7 @@ class Game:
         self.pipelist = []
         self.orblist = []
         self.level = None
-        self.levelNum = 0;
+        self.levelNum = 0
         self.level_mode = False
         self.Score = Score()
         self.Sound = Sound()
@@ -30,7 +29,8 @@ class Game:
         self.ghost_mode = False
         self.scoreMult_mode = False
         self.firePower_mode = False
-        self.firePower_shot = 0
+        self.firePower_shot_count = 0
+        self.projectile = None
 
         self.start = False
         self.run = True
@@ -38,6 +38,7 @@ class Game:
         self.click = pygame.mouse.get_pressed()
 
 #helper function that calls func after a delay, can only be used in middle_loop
+#used to end powerUp effects after a certain time
     def after(self, delay, func):
         start_time = time.time()
         loop = True
@@ -49,16 +50,19 @@ class Game:
         
     def draw_window(self):
         SCREEN.blit(BG_SURFACE,(0,0))
+        #draw pipes
         for pipe in self.pipelist:
                 pipe.draw_pipe()
         self.base.draw()
         self.birdObj.draw_bird()
         self.Score.score_display(self.game_over)
-
-
-#experimenting with orbs
+        #draw projectile
+        if self.projectile:
+            self.projectile.draw_projectile()
+        #draw orbs
         for orb in self.orblist:
                 orb.draw_orb()
+
         pygame.display.update()
 
     def draw_start_window(self):
@@ -94,22 +98,32 @@ class Game:
                     self.Sound.score_sound.play()
     #move pipes
             for pipe in self.pipelist:
-                if pipe.collide(self.birdObj) == True and not self.ghost_mode:
+                if pipe.collide(self.birdObj) == True and not self.ghost_mode: #don't check for collision on ghost mode
                     self.Sound.hit.play()
                     pygame.event.post(pygame.event.Event(GAME_OVER))
                 pipe.move()
     #move orbs
             for orb in self.orblist:
-                if orb.collide(self.birdObj) == True:
+                if orb.collide(self.birdObj) == True: #remove orbs if collision
                     self.orblist.remove(orb)
                 else: orb.move()
 #Check for base collision
             if self.base.collide(self.birdObj) == True:
                 self.Sound.hit.play()
-                pygame.event.post(pygame.event.Event(GAME_OVER))
+                pygame.event.post(pygame.event.Event(GAME_OVER))#end game 
 #Move the bird
-            if self.easy_mode == False: self.birdObj.bird_fall()
-            self.birdObj.handle_projectile()
+            if self.easy_mode == False: self.birdObj.bird_fall() #move the bird if easy mode not activated
+#Handle projectile
+            if self.projectile:
+                self.projectile.move_projectile()
+                for pipe in self.pipelist:
+                    if self.projectile:#need to make sure that the loop doesn't continue after the first collison
+                        if pipe.collide(self.projectile):#remove the projectile and decrement health
+                            pipe.health -= 1
+                            self.projectile = None
+                        if pipe.health == 0:#remove pipe if health drops to 0
+                            self.pipelist.remove(pipe)
+
 
         elif self.game_over == False:
             self.draw_start_window()
@@ -187,8 +201,11 @@ class Game:
                 self.birdObj.easy_mode_move("up")
             if keys[pygame.K_DOWN]: 
                 self.birdObj.easy_mode_move("down")
-            if keys[pygame.K_f]:
-                self.birdObj.fire()
+            if keys[pygame.K_f] and self.firePower_mode and not self.projectile:
+                self.projectile = Projectile(self.birdObj.x_loc, self.birdObj.y_loc)
+                self.firePower_shot_count += 1
+                if self.firePower_shot_count >= 4:
+                    self.firePower_end()
         else:
             if keys[pygame.K_SPACE]: 
                 self.birdObj.jump_bird()
@@ -244,8 +261,6 @@ class Game:
     def firePower_start(self):
         self.firePower_mode = True
         self.birdObj.change_skin("firePower")
-        if self.firePower_shot > 6:
-            self.firePower_end()
 
     def firePower_end(self):
         self.birdObj.change_skin("normal")

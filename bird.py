@@ -15,7 +15,6 @@ class Bird:
     x_loc = BIRD_START_X_LOC
     boundary = BIRD_SURFACE.get_rect(topleft = (x_loc, y_loc))
     power_mode = ""
-    projectile = None
 
     #####################################################################################################################################
     birdDown1 = pygame.image.load('assets/start/fire_down.png').convert_alpha()
@@ -108,19 +107,4 @@ class Bird:
         if self.y_loc < 0:
             self.y_loc = 0
             self.boundary = BIRD_SURFACE.get_rect(topleft = (self.x_loc, self.y_loc))
-
-    def fire(self):
-        self.projectile = pygame.Rect(BIRD_START_X_LOC + 100, BIRD_START_Y_LOC, 50, 20)
-    
-    def draw_projectile(self):
-        pygame.draw.rect(SCREEN, (255,255,255), self.projectile)
-
-    def move_projectile(self):
-        self.projectile.left += VEL
-
-    def handle_projectile(self):
-        self.fire()
-        self.move_projectile()
-        self.draw_projectile()
-
     

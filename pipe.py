@@ -11,6 +11,7 @@ class Pipe:
         self.bot_pipe_surface = PIPE_SURFACE
         self.top_pipe_surface = pygame.transform.flip(PIPE_SURFACE,False,True)
         self.passed = False
+        self.health = 2
 
     def move(self):
         self.x_loc -= VEL
@@ -25,8 +26,8 @@ class Pipe:
         top_pipe_mask = pygame.mask.from_surface(self.top_pipe_surface)
         bot_pipe_mask = pygame.mask.from_surface(self.bot_pipe_surface)
 #FIND OFFSETS
-        top_offset = (self.x_loc - bird.x_loc, self.top_pipe_end - round(bird.y_loc))
-        bot_offset = (self.x_loc - bird.x_loc, self.bot_pipe_end - round(bird.y_loc))
+        top_offset = (self.x_loc - round(bird.x_loc), self.top_pipe_end - round(bird.y_loc))
+        bot_offset = (self.x_loc - round(bird.x_loc), self.bot_pipe_end - round(bird.y_loc))
 #CHECK AND RETURN FOR OVERLAP OF MASKS
         top_collide = bird_mask.overlap(top_pipe_mask, top_offset)
         bot_collide = bird_mask.overlap(bot_pipe_mask, bot_offset)
