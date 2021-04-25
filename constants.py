@@ -5,6 +5,7 @@ CLOCK = pygame.time.Clock()
 FPS = 60
 VEL = 2 #2
 GAME_OVER = pygame.USEREVENT + 1
+LEVEL_COMPLETE = pygame.USEREVENT + 7
 
 #window constants
 WIDTH, HEIGHT = 600, 900

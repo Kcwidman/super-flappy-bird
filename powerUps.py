@@ -31,7 +31,7 @@ class Ghost(Orb):
         self.orb_surface = pygame.transform.scale(self.orb_surface, ORB_DIM)
     def power_up(self):
         pygame.event.post(pygame.event.Event(GHOST))
-        
+
 class ScoreMult(Orb):
     def __init__(self, x, y):
         self.x_loc = x

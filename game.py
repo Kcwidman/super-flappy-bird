@@ -31,6 +31,7 @@ class Game:
         self.firePower_mode = False
         self.firePower_shot_count = 0
         self.projectile = None
+        self.level_complete = False
 
         self.start = False
         self.run = True
@@ -55,7 +56,7 @@ class Game:
                 pipe.draw_pipe()
         self.base.draw()
         self.birdObj.draw_bird()
-        self.Score.score_display(self.game_over)
+        self.Score.score_display(self.game_over, self.level_complete)
         #draw projectile
         if self.projectile:
             self.projectile.draw_projectile()
@@ -123,8 +124,9 @@ class Game:
                             self.projectile = None
                         if pipe.health == 0:#remove pipe if health drops to 0
                             self.pipelist.remove(pipe)
-
-
+#check if the last pipe reaches end to complete the level
+            if self.level_mode and (self.pipelist[-1].x_loc + PIPE_WIDTH < 0): 
+                pygame.event.post(pygame.event.Event(LEVEL_COMPLETE))
         elif self.game_over == False:
             self.draw_start_window()
         else:
@@ -201,6 +203,10 @@ class Game:
                 self.game_over = True
             if event.type == GAME_OVER:
                 self.game_over = True
+#check for level complete
+            if event.type == LEVEL_COMPLETE:
+                self.game_over = True
+                self.level_complete = True
             self.power_up_handling(event)
 #controls
         keys = pygame.key.get_pressed()
@@ -235,6 +241,7 @@ class Game:
                 self.start = False
                 self.game_over = False
                 self.level_mode = False
+                self.level_complete = False
 
     def main(self):
         pygame.mixer.music.play(-1)

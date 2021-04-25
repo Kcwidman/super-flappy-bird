@@ -9,7 +9,7 @@ class Score:
         #self.high_score = 0
         self.font1 = pygame.font.Font("assets/04B_19.TTF", 40)
         self.font2 = pygame.font.Font("assets/04B_19.TTF", 20)
-    def score_display(self,game_over):
+    def score_display(self,game_over, level_complete):
         if (game_over == False):
          self.score_surface = self.font1.render("SCORE: " + str(self.score),1,(255,255,255))
          self.score_rect = self.score_surface.get_rect(center= (WIDTH/2,150))
@@ -21,6 +21,8 @@ class Score:
         else:
             self.score_surface = self.font1.render(f'SCORE {(self.score)}',1,(255,255,255))
             self.score_surface1 = self.font2.render(str('GAME OVER'),1,(255,255,255))
+            if level_complete:
+                self.score_surface1 = self.font2.render(str('LEVEL COMPLETE!'),1,(255,255,255))
             #self.score_surface2 = self.font2.render(str('PRESS SPACE TO START AGAIN'),1,(255,255,255))
             self.menu3_surface = pygame.image.load("assets/start/menu3.png").convert()
             self.score_rect = self.score_surface.get_rect(center= (WIDTH/2,200))
