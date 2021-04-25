@@ -41,7 +41,7 @@ class Bird:
 
     def draw_start_bird(self):
         self.animate_start_bird()
-        SCREEN.blit(self.bird_img2,(WIDTH/2-20,HEIGHT/2))
+        SCREEN.blit(self.bird_img2,(WIDTH/2-20,HEIGHT/2-100))
 
     #######################################################################################################################################
 

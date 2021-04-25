@@ -125,31 +125,41 @@ class Game:
             if event.type == pygame.QUIT:
                 self.run = False
                 self.game_over = True
-            if event.type == pygame.MOUSEBUTTONDOWN and ((70+60) > event.pos[0] > 70 and (240+60) > event.pos[1] > 240):   #EASY MODE CONTROLS 
+            if event.type == pygame.MOUSEBUTTONDOWN and ((140+120) > event.pos[0] > 140 and (455+30) > event.pos[1] > 455):   #EASY MODE
                 self.start = True
                 self.easy_mode = True
                 self.level_mode = True
                 self.levelNum = 1
-            if event.type == pygame.MOUSEBUTTONDOWN and ((270+60) > event.pos[0] > 270 and (240+60) > event.pos[1] > 240):   
+            if event.type == pygame.MOUSEBUTTONDOWN and ((340+120) > event.pos[0] > 340 and (455+30) > event.pos[1] > 455):   #NORMAL MODE
+                self.start = True
+                self.easy_mode = False
+                self.level_mode = False
+                self.levelNum = 1
+            if event.type == pygame.MOUSEBUTTONDOWN and ((70+60) > event.pos[0] > 70 and (240+60) > event.pos[1] > 240):   #LEVEL 1
+                self.start = True
+                self.easy_mode = False
+                self.level_mode = True
+                self.levelNum = 1
+            if event.type == pygame.MOUSEBUTTONDOWN and ((270+60) > event.pos[0] > 270 and (240+60) > event.pos[1] > 240):    #LEVEL 2
                 self.start = True
                 self.easy_mode = False 
                 self.level_mode = True
-                self.levelNum = 1
-            if event.type == pygame.MOUSEBUTTONDOWN and ((470+60) > event.pos[0] > 470 and (240+60) > event.pos[1] > 240):   
+                self.levelNum = 2
+            if event.type == pygame.MOUSEBUTTONDOWN and ((470+60) > event.pos[0] > 470 and (240+60) > event.pos[1] > 240):    #LEVEL 3
                 self.start = True
                 self.easy_mode = False
                 self.level_mode = True
-                self.levelNum = 1
-            if event.type == pygame.MOUSEBUTTONDOWN and ((170+60) > event.pos[0] > 170 and (340+60) > event.pos[1] > 340):
+                self.levelNum = 3
+            if event.type == pygame.MOUSEBUTTONDOWN and ((170+60) > event.pos[0] > 170 and (340+60) > event.pos[1] > 340):   #LEVEL 4
                 self.start = True
                 self.easy_mode = False
                 self.level_mode = True
-                self.levelNum = 1
-            if event.type == pygame.MOUSEBUTTONDOWN and ((370+60) > event.pos[0] > 370 and (340+60) > event.pos[1] > 340):  
+                self.levelNum = 4
+            if event.type == pygame.MOUSEBUTTONDOWN and ((370+60) > event.pos[0] > 370 and (340+60) > event.pos[1] > 340):   #LEVEL 5
                 self.start = True
                 self.easy_mode = False
                 self.level_mode = True
-                self.levelNum = 1
+                self.levelNum = 5
 
         if self.level_mode:
             self.level = Level(self.levelNum)
@@ -212,7 +222,7 @@ class Game:
                 self.level_mode = False
 
     def main(self):
-        pygame.mixer.music.play(-1)
+        #pygame.mixer.music.play(-1)
         while self.run:
             if not self.game_over and not self.start: #run before the game starts
                 self.intro_loop()
