@@ -1,5 +1,7 @@
 import pygame
 import sys
+
+# this class have sounds source that will be used in the game.py
 class Sound:
 
     def __init__(self):

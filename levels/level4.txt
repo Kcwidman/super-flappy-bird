@@ -26,6 +26,7 @@ coin 5010 225
 ghost 4200 400
 ghost 5100 400
 firePower 5950 300
+firePower 6850 300
 PIPES
 400 400
 800 400

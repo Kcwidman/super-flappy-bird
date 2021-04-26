@@ -165,7 +165,7 @@ class Game:
                 self.levelNum = 2
             if event.type == pygame.MOUSEBUTTONDOWN and ((470+60) > event.pos[0] > 470 and (240+60) > event.pos[1] > 240):    #LEVEL 3
                 self.start = True
-                self.easy_mode = False
+                self.easy_mode = True
                 self.level_mode = True
                 self.levelNum = 3
             if event.type == pygame.MOUSEBUTTONDOWN and ((170+60) > event.pos[0] > 170 and (340+60) > event.pos[1] > 340):   #LEVEL 4
@@ -254,7 +254,7 @@ class Game:
                 self.projectile = None
 
     def main(self):
-        #pygame.mixer.music.play(-1)
+        pygame.mixer.music.play(-1)
         while self.run:
             if not self.game_over and not self.start: #run before the game starts
                 self.intro_loop()
