@@ -254,7 +254,7 @@ class Game:
                 self.projectile = None
 
     def main(self):
-        #pygame.mixer.music.play(-1)
+        pygame.mixer.music.play(-1)
         while self.run:
             if not self.game_over and not self.start: #run before the game starts
                 self.intro_loop()
