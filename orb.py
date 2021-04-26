@@ -1,5 +1,6 @@
 from constants import *
 
+#Orb is the basis for all of the powerups. It is incredibly important as the collision is handled here which allows the envents to be triggred in main.
 class Orb:
     def __init__(self, x, y):
         self.x_loc = x
@@ -9,7 +10,8 @@ class Orb:
 
     def move(self):
         self.x_loc -= VEL
-
+        
+    #THis allows the orb to be created(all powerupw will be created with this function)
     def draw_orb(self):
         SCREEN.blit(self.orb_surface, (self.x_loc, self.y_loc))
 
@@ -21,7 +23,9 @@ class Orb:
         offset = (self.x_loc - bird.x_loc, self.y_loc - round(bird.y_loc))
 #CHECK AND RETURN FOR OVERLAP OF MASKS
         collide = bird_mask.overlap(orb_mask, offset)
-
+    
+        #This is possiby the most important function for project 4, all collisions run through this with powerups
+        #The power up will create different effects depending on which the bird collided with.
         if collide:
             self.power_up()
             return True
