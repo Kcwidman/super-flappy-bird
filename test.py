@@ -135,4 +135,19 @@ class Test:
         print(self.game.pipelist)
         self.append_results(self.game.pipelist == [])
 
+        self.new_test_init("TEST 15: levels load objects into the level object")
+        level = Level(1)
+        check1 = len(level.orbs) > 0
+        check2 = len(level.pipes) > 0
+        self.append_results(check1 and check2)
+
+        self.new_test_init("TEST 16: game can interact with level loaded objects")
+        level = Level(1)
+        self.game.pipelist = level.pipes
+        self.game.orblist = level.orbs
+        self.game.easy_mode = True
+        self.game.test_main(500)
+        self.append_results(self.game.game_over == True)
+        
+
 
