@@ -16,11 +16,6 @@ coin 3300 500
 coin 3650 330
 firePower 2900 350
 ghost 1500 600
-ghost 550 250
-ghost 2000 550
-ghost 2300 500
-ghost 2700 500
-ghost 3000 500
 scoreMult 850 550
 PIPES
 700 200
