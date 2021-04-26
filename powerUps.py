@@ -1,10 +1,12 @@
 from constants import *
 from orb import *
 
+# slow motion powerup. Not implemented in the working version of the game
 class SlowMo(Orb):
     def power_up(self):
         pygame.event.post(pygame.event.Event(SLOW_MO))
 
+# loads an image of coin. Checks for collision with coin
 class Coin(Orb):
     def __init__(self, x, y):
         self.x_loc = x
@@ -14,6 +16,7 @@ class Coin(Orb):
     def power_up(self):
         pygame.event.post(pygame.event.Event(COIN_COLLISION))
 
+# loads an image of fire. Checks for collision with fire
 class FirePower(Orb):
     def __init__(self, x, y):
         self.x_loc = x
@@ -23,6 +26,7 @@ class FirePower(Orb):
     def power_up(self):
         pygame.event.post(pygame.event.Event(FIRE_POWER))
 
+# loads an image of ghost. Checks for collision with ghost
 class Ghost(Orb):
     def __init__(self, x, y):
         self.x_loc = x
@@ -32,6 +36,7 @@ class Ghost(Orb):
     def power_up(self):
         pygame.event.post(pygame.event.Event(GHOST))
 
+# loads an image of the star. Checks for collision with star
 class ScoreMult(Orb):
     def __init__(self, x, y):
         self.x_loc = x
