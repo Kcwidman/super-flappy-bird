@@ -50,7 +50,8 @@ class Game:
                 loop = False
             elif not self.test_mode:
                 self.middle_loop()
-        
+
+#calls the draw methods for all the main objects in the main middle loop
     def draw_window(self):
         if not self.test_mode:
             SCREEN.blit(BG_SURFACE,(0,0))
@@ -69,6 +70,7 @@ class Game:
 
             pygame.display.update()
 
+#calls the draw methods for all the main objects used in intro loop
     def draw_start_window(self):
         SCREEN.blit(BG_SURFACE,(0,0))
         for pipe in self.pipelist:
@@ -92,7 +94,7 @@ class Game:
     def game_loop(self):
         if self.start and not self.game_over:
             self.draw_window()
-#Affect pipes
+    #affect pipes
             if not self.level_mode: 
                 self.generate_pipes() #only randomly generate pipes if not in level mode
     #tally score
@@ -112,13 +114,13 @@ class Game:
                 if orb.collide(self.birdObj) == True: #remove orbs if collision
                     self.orblist.remove(orb)
                 else: orb.move()
-#Check for base collision
+    #Check for base collision
             if self.base.collide(self.birdObj) == True:
                 #self.Sound.hit.play()
                 pygame.event.post(pygame.event.Event(GAME_OVER))#end game 
-#Move the bird
+    #Move the bird
             if self.easy_mode == False: self.birdObj.bird_fall() #move the bird if easy mode not activated
-#Handle projectile
+    #Handle projectile
             if self.projectile:
                 self.projectile.move_projectile()
                 for pipe in self.pipelist:
@@ -128,16 +130,18 @@ class Game:
                             self.projectile = None
                         if pipe.health == 0:#remove pipe if health drops to 0
                             self.pipelist.remove(pipe)
-#check if the last pipe reaches end to complete the level or if pipelist is empty
+    #check if the last pipe reaches end to complete the level or if pipelist is empty
             if not self.pipelist or (self.level_mode and (self.pipelist[-1].x_loc + PIPE_WIDTH < 0)):
                 pygame.event.post(pygame.event.Event(LEVEL_COMPLETE))
+    #these last 2 statements handle cases for intro and end loops (explained down below)
         elif self.game_over == False:
             self.draw_start_window()
         else:
             self.draw_window()
 
 
-###################################################################################################            
+###################################################################################################     
+#intro loop is run before the user selects an option from the menu       
     def intro_loop(self):
         CLOCK.tick(FPS)
         self.game_loop()
@@ -145,6 +149,7 @@ class Game:
             if event.type == pygame.QUIT:
                 self.run = False
                 self.game_over = True
+        #select menu items
             if event.type == pygame.MOUSEBUTTONDOWN and ((140+120) > event.pos[0] > 140 and (455+30) > event.pos[1] > 455):   #EASY MODE
                 self.start = True
                 self.easy_mode = True
@@ -178,26 +183,27 @@ class Game:
                 self.easy_mode = False
                 self.level_mode = True
                 self.levelNum = 5
-
+        #load the level objects if level mode selected
         if self.level_mode:
             self.level = Level(self.levelNum)
             self.pipelist = self.level.pipes
             self.orblist = self.level.orbs
 
+#calls the proper functions when a power up collision occurs
     def power_up_handling(self, event):
         if event.type == COIN_COLLISION:
             self.Score.coin_count += 1
-           # self.Sound.score_sound.play()
+            self.Sound.score_sound.play()
         elif event.type == FIRE_POWER:
             self.Sound.score_sound.play()
-            #self.firePower_start()
+            self.firePower_start()
         elif event.type == GHOST:
-            #self.Sound.score_sound.play()
+            self.Sound.score_sound.play()
             self.ghost_start()
         elif event.type == SCORE_MULT:
-            #self.Sound.score_sound.play()
+            self.Sound.score_sound.play()
             self.scoreMult_start()
-
+#middle loop runs the main game loop and is used for actual gameplay
     def middle_loop(self):
         if not self.test_mode: CLOCK.tick(FPS)#this dramatically speeds up tests
         self.game_loop()
@@ -231,7 +237,7 @@ class Game:
 
         if self.game_over: self.game_loop()
     
-
+#shown after game over event occurs and runs until the game is quit or restarted
     def end_loop(self):
         CLOCK.tick(FPS)
         for event in pygame.event.get():
@@ -265,7 +271,8 @@ class Game:
                         
             pygame.QUIT
 
-#used in the test suite
+#used in the test suite, it will advance the game loop as many frames as taken in as a parameter
+#this allows for very accurate testing
     def test_main(self, frames):
         self.test_mode = True
         self.start = True
@@ -280,6 +287,7 @@ class Game:
     def end_testing(self):
         pygame.quit()
 
+#POWER UP FUNCTIONS
     def ghost_start(self):
         self.ghost_mode = True
         self.birdObj.change_skin("ghost")
