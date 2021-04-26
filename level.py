@@ -3,7 +3,9 @@ from orb import *
 from pipe import *
 from powerUps import *
 class Level:
-
+#this class reads in from the file and creates objects and places them into a list
+#inside the game class, the level object can be created, then the game can copy the objects
+#and load them into the game
     def __init__(self, level_num):
         self.orbs = []
         self.pipes = []
@@ -36,10 +38,8 @@ class Level:
             elif self.flag == "pipes":
                 data = s.split()
                 self.pipes.append(Pipe(int(data[0]), int(data[1])))
-                
 
         f.close()
-        # print(self.pipes)
 
 
     

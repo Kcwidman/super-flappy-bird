@@ -14,16 +14,20 @@ class Test:
         else:
             self.test_results[-1] += f
 
+    #re-initializes the game object, appends the description to the output array, advances the frame by 1 to initialize some objects
     def new_test_init(self, description):
         self.game = Game()
         self.game.test_main(1)
         description += " -> "
         self.test_results.append(description)
 
+    #simply prints the results of the tests
     def print_results(self):
         for result in self.test_results:
             print(result)
 
+    #runs all the below tests
+    #they all follow the same format. A test is initialized, a test is run by altering the game objects, then the results are appended to the results array
     def run(self):
         self.new_test_init("TEST 1: pipes move across screen")
         x1 = self.game.pipelist[0].x_loc

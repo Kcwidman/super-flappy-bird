@@ -15,11 +15,11 @@ class Pipe:
 
     def move(self):
         self.x_loc -= VEL
-
+    #this function creates the pipe and gives the data for the collision to use.
     def draw_pipe(self):
         SCREEN.blit(self.bot_pipe_surface, (self.x_loc, self.bot_pipe_end))
         SCREEN.blit(self.top_pipe_surface, (self.x_loc, self.top_pipe_end))
-    
+    #This function allows the bird to collide with the pipe. The mask of the bird is checked to see if it is overlapping with the pipe
     def collide(self, bird):
 #SET MASKS
         bird_mask = bird.get_mask()
@@ -36,7 +36,7 @@ class Pipe:
             return True
         else:
             return False
-    
+    #When passing a pipe, the score is increased.
     def scorecal(self,bird):
         if self.x_loc  <= bird.x_loc and self.passed == False:
             self.passed = True

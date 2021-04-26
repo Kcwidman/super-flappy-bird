@@ -1,6 +1,7 @@
 from constants import *
 
 class Bird:
+    #list of bird variables
     birdDown = pygame.image.load('assets/bird_down.png').convert_alpha()
     birdCenter = pygame.image.load('assets/bird_mid.png').convert_alpha()
     birdUp = pygame.image.load('assets/bird_up.png').convert_alpha()
@@ -16,7 +17,7 @@ class Bird:
     boundary = BIRD_SURFACE.get_rect(topleft = (x_loc, y_loc))
     power_mode = ""
 
-    #####################################################################################################################################
+    #loading different bird images for different bird positions
     birdDown1 = pygame.image.load('assets/start/fire_down.png').convert_alpha()
     birdCenter1 = pygame.image.load('assets/start/fire_mid.png').convert_alpha()
     birdUp1 = pygame.image.load('assets/start/fire_up.png').convert_alpha()
@@ -32,18 +33,19 @@ class Bird:
     birdFrame1 = [birdDown, birdCenter, birdUp,birdDown1, birdCenter1, birdUp1,birdDown2, birdCenter2, birdUp2,birdDown3, birdCenter3, birdUp3, birdDown4, birdCenter4, birdUp4]
     bird_img2 = birdFrame1[0]
 
+    # displays the different bird images on the starting screen
     def animate_start_bird(self):
-	    self.tick_count += 1
-	    if self.tick_count % 15 == 0:
-	        self.frame_index1 = (self.frame_index1 + 1) % 15
-	    self.bird_img2 = pygame.transform.rotozoom(self.birdFrame1[self.frame_index1], max(-self.falling_vel * 5, -70), 1)
+        self.tick_count += 1
+        if self.tick_count % 15 == 0:
+            self.frame_index1 = (self.frame_index1 + 1) % 15
+        self.bird_img2 = pygame.transform.rotozoom(self.birdFrame1[self.frame_index1], max(-self.falling_vel * 5, -70), 1)
 
+    # draws bird onto start menu screen
     def draw_start_bird(self):
         self.animate_start_bird()
         SCREEN.blit(self.bird_img2,(WIDTH/2-20,HEIGHT/2-100))
 
-    #######################################################################################################################################
-
+    # changing the bird images based on powerup type
     def change_skin(self, power):
         self.power_mode = power #allow game to see what mode the bird is in
         if power == "normal":
@@ -70,16 +72,19 @@ class Bird:
             self.birdUp = pygame.image.load('assets/powerUps/mult_up.png').convert_alpha()
             self.birdFrame = [self.birdDown, self.birdCenter, self.birdUp]
 
+    # rotates bird on jumping and falling
     def animate_bird(self):
         self.tick_count += 1
         if self.tick_count % 3 == 0:
             self.frame_index = (self.frame_index + 1) % 3
         self.bird_img = pygame.transform.rotozoom(self.birdFrame[self.frame_index], max(-self.falling_vel * 5, -70), 1)
 
+    # draws the bird onto screen
     def draw_bird(self):
         self.animate_bird()
         SCREEN.blit(self.bird_img, self.boundary)
 
+    # makes sure the bird keeps falling when in normal mode
     def bird_fall(self):
         self.rot_angle = -self.falling_vel * 5
         self.falling_vel += FALLING_ACC
@@ -88,12 +93,15 @@ class Bird:
         self.boundary = BIRD_SURFACE.get_rect(topleft = (self.x_loc, self.y_loc))
         self.in_bounds_check()
 
+    # increase bird height. Used as a helper function in game.py
     def jump_bird(self):
         self.falling_vel = JUMP_HEIGHT
 
+    # gets a mask of the bird. Used as a helper function to game.py
     def get_mask(self):
         return pygame.mask.from_surface(self.bird_img)
 
+    # moves the bird in easy mode. Used as a helper function in game.py
     def easy_mode_move(self, direction):
         self.falling_vel = 0
         if direction == "up":
@@ -102,7 +110,8 @@ class Bird:
             self.y_loc += 7
         self.boundary = BIRD_SURFACE.get_rect(topleft = (self.x_loc, self.y_loc))
         self.in_bounds_check()
-    
+
+    # makes sure bird cannot go over the top of the screen
     def in_bounds_check(self):
         if self.y_loc < 0:
             self.y_loc = 0
