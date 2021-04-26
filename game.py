@@ -152,11 +152,11 @@ class Game:
         #select menu items
             if event.type == pygame.MOUSEBUTTONDOWN and ((140+120) > event.pos[0] > 140 and (455+30) > event.pos[1] > 455):   #EASY MODE
                 self.start = True
-                self.easy_mode = False
+                self.easy_mode = True
                 self.level_mode = False
             if event.type == pygame.MOUSEBUTTONDOWN and ((340+120) > event.pos[0] > 340 and (455+30) > event.pos[1] > 455):   #NORMAL MODE
                 self.start = True
-                self.easy_mode = True
+                self.easy_mode = False
                 self.level_mode = False
             if event.type == pygame.MOUSEBUTTONDOWN and ((70+60) > event.pos[0] > 70 and (240+60) > event.pos[1] > 240):   #LEVEL 1
                 self.start = True
