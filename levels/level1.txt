@@ -10,7 +10,7 @@ coin 2710 175
 coin 3010 525
 firePower 1750 400
 ghost 500 550
-scoreMult 610 125
+scoreMult 400 125
 PIPES
 700 200
 1000 500
