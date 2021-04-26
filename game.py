@@ -152,7 +152,7 @@ class Game:
         #select menu items
             if event.type == pygame.MOUSEBUTTONDOWN and ((140+120) > event.pos[0] > 140 and (455+30) > event.pos[1] > 455):   #EASY MODE
                 self.start = True
-                self.easy_mode = True
+                self.easy_mode = False
                 self.level_mode = False
             if event.type == pygame.MOUSEBUTTONDOWN and ((340+120) > event.pos[0] > 340 and (455+30) > event.pos[1] > 455):   #NORMAL MODE
                 self.start = True
@@ -160,22 +160,22 @@ class Game:
                 self.level_mode = False
             if event.type == pygame.MOUSEBUTTONDOWN and ((70+60) > event.pos[0] > 70 and (240+60) > event.pos[1] > 240):   #LEVEL 1
                 self.start = True
-                self.easy_mode = True
+                self.easy_mode = False
                 self.level_mode = True
                 self.levelNum = 1
             if event.type == pygame.MOUSEBUTTONDOWN and ((270+60) > event.pos[0] > 270 and (240+60) > event.pos[1] > 240):    #LEVEL 2
                 self.start = True
-                self.easy_mode = True 
+                self.easy_mode = False
                 self.level_mode = True
                 self.levelNum = 2
             if event.type == pygame.MOUSEBUTTONDOWN and ((470+60) > event.pos[0] > 470 and (240+60) > event.pos[1] > 240):    #LEVEL 3
                 self.start = True
-                self.easy_mode = True
+                self.easy_mode = False
                 self.level_mode = True
                 self.levelNum = 3
             if event.type == pygame.MOUSEBUTTONDOWN and ((170+60) > event.pos[0] > 170 and (340+60) > event.pos[1] > 340):   #LEVEL 4
                 self.start = True
-                self.easy_mode = True
+                self.easy_mode = False
                 self.level_mode = True
                 self.levelNum = 4
             if event.type == pygame.MOUSEBUTTONDOWN and ((370+60) > event.pos[0] > 370 and (340+60) > event.pos[1] > 340):   #LEVEL 5
@@ -228,12 +228,11 @@ class Game:
         else:
             if keys[pygame.K_SPACE]: 
                 self.birdObj.jump_bird()
-        #turn to easy mode if 'e' is pressed
+    #turn to easy mode if 'e' is pressed
         if keys[pygame.K_e]:
             self.easy_mode = True
         if keys[pygame.K_f] and self.firePower_mode and not self.projectile:
             self.fire()
-
 
         if self.game_over: self.game_loop()
     
